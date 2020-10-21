@@ -1,3 +1,6 @@
 {
-  "vetur.format.defaultFormatter.pug": "prettier"
+  "vetur.format.defaultFormatter.pug": "prettier",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }  
 }
