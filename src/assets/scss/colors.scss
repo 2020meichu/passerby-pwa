@@ -1,0 +1,15 @@
+$colors: (
+  darkmode-gray: #fafafacc,
+  darkmode-superdark: #192124
+);
+
+@each $name, $color in $colors {
+  .#{$name} {
+    background-color: $color;
+    border-color: $color;
+    &--text {
+      color: $color;
+      caret-color: $color;
+    }
+  }
+}
