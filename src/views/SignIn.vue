@@ -18,9 +18,9 @@
           required
         )
         p.d-flex.justify-end.mb-6.fs-12.primary--text 忘記使用者密碼？
-        v-btn(color='primary' block) 登入
+        v-btn(color='primary', block) 登入
         p.d-flex.justify-center.mt-5.mb-3.fs-12 尚未擁有帳號？
-        v-btn(color='primary' block outlined to="/sign-up") 註冊新帳號
+        v-btn(color='primary', block, outlined, to='/sign-up') 註冊新帳號
 </template>
 
 <script lang="ts">

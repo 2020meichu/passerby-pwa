@@ -1,4 +1,4 @@
 <template lang="pug">
 div
-  p Home Page
+  p Footprint Page
 </template>
