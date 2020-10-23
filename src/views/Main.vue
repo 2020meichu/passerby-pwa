@@ -1,25 +1,21 @@
 <template lang="pug">
-div
-  v-app-bar.flex-row(app, height='165', color='darkmode-dark')
-    v-col.px-8
+.root
+  v-app-bar.flex-row(app, height='165', color='darkmode-dark', elevate-on-scroll)
+    v-col.px-10
       v-row.justify-space-between.mb-6
         avatar(:imgPath='avatar')
         h1.fs-34.darkmode-white--text LOGO
       v-row
         h1.fs-34.darkmode-white--text 你好, 俊豪
   router-view
-  v-bottom-navigation(v-model='bottomNav', shift, app, grow, color='primary', background-color='darkmode-dark', height='86', @change='changeRoute')
+  v-bottom-navigation(v-model='bottomNav', app, grow, color='primary', background-color='darkmode-dark', height='86', @change='changeRoute')
     v-btn
-      span 首頁
       v-icon mdi-home
     v-btn
-      span 首頁
       v-icon mdi-map-marker
     v-btn
-      span 足跡
       v-icon mdi-shoe-print
     v-btn
-      span 設定
       v-icon mdi-cog
 </template>
 
@@ -58,4 +54,7 @@ export default class Main extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.root {
+  height: 100%;
+}
 </style>
