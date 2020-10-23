@@ -8,22 +8,27 @@
       .indicator__bg__dot.darkmode-dark
     .indicator__bg.d-flex.justify-center.align-center
       .indicator__bg__dot.darkmode-dark
-  UserForm
+  UserForm(v-if='!isStep2')
+  IdCardForm(v-else)
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import UserForm from '@/components/signUp/UserForm.vue'
+import IdCardForm from '@/components/signUp/IdCardForm.vue'
 import BackBtn from '@/components/BackBtn.vue'
 
 @Component({
   name: 'SignUp',
   components: {
     UserForm,
+    IdCardForm,
     BackBtn
   }
 })
-export default class SignUp extends Vue {}
+export default class SignUp extends Vue {
+  isStep2: boolean = true
+}
 </script>
 
 <style lang="scss" scoped>
