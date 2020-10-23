@@ -4,7 +4,7 @@
     h1.fs-34.darkmode-white--text LOGO
   .signin-card.darkmode-dark.px-12.pt-11
     div
-      h1.heading-size.darkmode-white--text 使用者登入
+      h1.fs-34.darkmode-white--text 使用者登入
     .pt-4
       v-form(ref='form', v-model='valid', lazy-validation)
         v-text-field(v-model='id', type='text', label='身分證字號', color='primary', required)
