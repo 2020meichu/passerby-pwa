@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app
-  v-main
+  v-main.darkmode-dark
     router-view
 </template>
 
@@ -13,5 +13,5 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/main.scss';
+@import '@/styles/main.scss';
 </style>
