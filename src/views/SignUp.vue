@@ -1,7 +1,7 @@
 <template lang="pug">
 .signup.primary.flex-column.justify-space-between
   BackBtn
-  div.flex-grow-1
+  .flex-grow-1
     //- h1.fs-34.darkmode-white--text LOGO
   .indicator.d-flex.justify-center.align-center
     .indicator__bg.d-flex.justify-center.align-center.mr-2
@@ -17,14 +17,13 @@ import UserForm from '@/components/signUp/UserForm.vue'
 import BackBtn from '@/components/BackBtn.vue'
 
 @Component({
+  name: 'SignUp',
   components: {
     UserForm,
     BackBtn
   }
 })
-export default class SignIn extends Vue {
-
-}
+export default class SignUp extends Vue {}
 </script>
 
 <style lang="scss" scoped>
