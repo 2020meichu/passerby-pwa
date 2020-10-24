@@ -13,8 +13,13 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
+      "node",
       "webpack-env",
       "vuetify"
+    ],
+    "typeRoots": [
+      "typings",
+      "node_modules/@types"
     ],
     "paths": {
       "@/*": [
@@ -22,7 +27,7 @@
       ]
     },
     "lib": [
-      "esnext",
+      // "es6",
       "dom",
       "dom.iterable",
       "scripthost"
@@ -36,6 +41,6 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules/*"
   ]
 }

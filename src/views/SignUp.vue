@@ -1,6 +1,6 @@
 <template lang="pug">
 .signup.primary.flex-column.justify-space-between
-  BackBtn
+  BackBtn(@click.native="backButtonClickHandler")
   .flex-grow-1
     //- h1.fs-34.darkmode-white--text LOGO
   .indicator.d-flex.justify-center.align-center
@@ -8,8 +8,10 @@
       .indicator__bg__dot.darkmode-dark
     .indicator__bg.d-flex.justify-center.align-center(:class="isStep2 ? 'active' : 'inactive'")
       .indicator__bg__dot.darkmode-dark
-  UserForm(v-if='!isStep2')
-  IdCardForm(v-else)
+  v-scroll-x-reverse-transition(mode="out-in" hide-on-leave)
+    UserForm(v-show="!isStep2", key="user-form", @switchStep2="switchStep2Handler")
+  v-scroll-x-reverse-transition(mode="out-in" hide-on-leave)
+    IdCardForm(v-show="isStep2", key="id-card-form", :userData="userData")
 </template>
 
 <script lang="ts">
@@ -28,6 +30,19 @@ import BackBtn from '@/components/BackBtn.vue'
 })
 export default class SignUp extends Vue {
   isStep2: boolean = false
+  userData: any
+
+  switchStep2Handler (data: any): void {
+    this.userData = data
+    this.isStep2 = true
+  }
+  backButtonClickHandler (): void {
+    if (this.isStep2) {
+      this.isStep2 = false
+    } else {
+      this.$router.replace('/sign-in')
+    }
+  }
 }
 </script>
 

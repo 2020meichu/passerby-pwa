@@ -13,7 +13,7 @@
   div.hint.d-flex.justify-center.align-center.mb-4(@click="toggleTakePhoto" v-else)
     v-icon.primary--text.mr-1(small) mdi-camera
     p.primary--text.mb-0 重新拍攝
-  v-btn(color='primary', block, :disabled="!photo") 上傳
+  v-btn(color='primary', block, :disabled="!photo", :loading="isUploading" @click="uploadHandler") 上傳
   TakePhoto(
     v-if="isTakePhoto"
     @setPhoto="setPhoto"
@@ -22,9 +22,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import { component } from 'vue/types/umd'
+import { Mutation, Getter } from 'vuex-class'
 import TakePhoto from '@/components/signUp/TakePhoto.vue'
+import FaceRecognition from '@/plugins/face-recognition'
+import axios from '@/plugins/axios'
 
 @Component({
   name: 'IdCardForm',
@@ -33,15 +36,59 @@ import TakePhoto from '@/components/signUp/TakePhoto.vue'
   }
 })
 export default class extends Vue {
+  @Prop(Object) readonly userData!: any
+  
+  @Mutation('user/setAvatar') public setAvatar!: Function
+  @Mutation('user/setUser') public setUser!: Function
   isTakePhoto: boolean = false
+  isUploading: boolean = false
   photo: any = null
 
-  setPhoto (photo:any) {
+  async setPhoto (photo:any): Promise<void> {
     this.photo = photo
-    console.log(photo)
+
   }
   toggleTakePhoto () {
     this.isTakePhoto = !this.isTakePhoto
+  }
+  async uploadHandler () {
+    this.isUploading = true
+    try {
+      const clipped:string = await FaceRecognition.getFaceImageDataURL(this.photo, 200)
+      // TODO: upload to the server instead
+      localStorage['avatar'] = clipped
+      this.setAvatar(clipped)
+
+      // The function to transfer from dataURL to Blob
+      const dataURLtoBlob = (dataurl: string): Blob => {
+        const arr = dataurl.split(','), mime = (arr[0].match(/:(.*?);/) as Array<string>)[1],
+          binaryStr = atob(arr[1])
+        let n = binaryStr.length, uint8arr = new Uint8Array(n)
+        while(n--){
+          uint8arr[n] = binaryStr.charCodeAt(n)
+        }
+        return new Blob([uint8arr], { type:mime })
+      }
+
+      const formData:FormData = new FormData()
+      Object.keys(this.userData).forEach((key: string): void => {
+        formData.append(key, this.userData[key])
+      })
+      formData.append('id_photo', dataURLtoBlob(this.photo))
+      formData.append('avatar', dataURLtoBlob(clipped))
+
+      const { data } = await axios.post('/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      // Save the token to local storage
+      localStorage['token'] = data.token
+      this.setUser(data.user)
+    } catch (error) {
+      console.log(error)
+    }
+    this.isUploading = false
   }
 }
 </script>
