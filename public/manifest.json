@@ -1,0 +1,14 @@
+{
+  "name": "PasserBy",
+  "short_name": "PasserBy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#263238",
+  "description": "meichu2020",
+  "icons": [],
+  "permissions": [
+    "storage",
+    "videoCapture",
+    "geolocation"
+  ]
+}
