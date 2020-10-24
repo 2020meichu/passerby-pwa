@@ -4,7 +4,9 @@
     v-col.px-10
       v-row.justify-space-between.mb-6
         avatar(:imgPath='userAvatar')
-        h1.fs-34.darkmode-white--text LOGO
+        .logo-section.d-flex.justify-end.align-center
+          .logo-section__logo.mr-2
+          p.logo-section__font.darkmode-dark--white.mb-0 Passerby
       v-row
         component(:is="displayFunctionBar")
   //- component(:is="currentRouteTransitionName")
@@ -101,5 +103,20 @@ export default class Main extends Vue {
 <style lang="scss" scoped>
 .root {
   height: 100%;
+}
+.logo-section {
+  z-index: 25;
+  &__logo {
+    width: 14px;
+    height: 20px;
+    background-image: url('~@/assets/img/passerby-logo-white.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &__font {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Cabin', sans-serif;
+  }
 }
 </style>
