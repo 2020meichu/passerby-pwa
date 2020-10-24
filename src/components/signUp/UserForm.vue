@@ -8,7 +8,7 @@
       ref='form'
       v-model='valid'
       lazy-validation
-      @submit.prevent="register"
+      @submit.prevent="submitHandler"
     )
       v-text-field(
         v-model='id'
@@ -55,7 +55,7 @@
         dense
         required
       )
-      v-btn(color='primary', block, type="submit") 註冊
+      v-btn(color='primary', block, type="submit") 下一步
       p.d-flex.justify-center.mt-4.mb-2.fs-12.darkmode-gray--text 已擁有帳號？
       v-btn(color='primary', block, outlined, to='/sign-in') 使用者登入
 </template>
@@ -96,8 +96,17 @@ export default class UserForm extends Vue {
     password: HTMLFormElement
   }
 
-  register () {
-
+  submitHandler () {
+    console.log()
+    const check:boolean = this.$refs.form.validate()
+    if (!check) {
+      return
+    }
+    this.$emit('switchStep2', {
+      id: this.id,
+      name: this.name,
+      password: this.password
+    })
   }
 }
 </script>
