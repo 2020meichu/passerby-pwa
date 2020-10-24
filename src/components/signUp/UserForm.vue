@@ -60,7 +60,7 @@
       v-btn(color='primary', block, outlined, to='/sign-in') 使用者登入
 </template>
 
-<script lang="ts"> 
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
