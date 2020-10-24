@@ -63,6 +63,7 @@ export default class SignIn extends Vue {
         id: this.id,
         password: this.password
       })
+      this.$router.replace('/')
     } catch (error) {
       if ('response' in error) {
         this.openNotification({
