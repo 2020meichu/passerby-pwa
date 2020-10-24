@@ -24,6 +24,11 @@ import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import Loading from '@/components/Loading.vue'
 
+interface PermissionStatus {
+  onchange: any
+  state: string
+}
+
 export default Vue.extend({
   name: 'App',
   components: {
@@ -40,9 +45,12 @@ export default Vue.extend({
     })
   },
   mounted() {
-    ;(window as any).navigator.permissions.query({ name: 'geolocation' }).then((result: any) => {
-      console.log(result)
-      this.isDisplayDialog = result.state === 'denied'
+    ;(window as any).navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus: PermissionStatus) => {
+      permissionStatus.onchange = function () {
+        console.log('geolocation permission status has changed to ', this.state)
+      }
+      console.log(permissionStatus)
+      this.isDisplayDialog = permissionStatus.state === 'denied'
     })
   },
   methods: {
