@@ -1,5 +1,5 @@
 <template lang="pug">
-v-card.rounded-xl(width='241', height='334', elevation='4' color="darkmode-superdark")
+v-card.rounded-20(width='241', height='334', elevation='4' color="darkmode-superdark")
   v-card-title.text-body-1.darkmode-white--text 新冠肺炎4千萬人確診 學者估疫情明年2月才受控
   v-card-text
     .d-flex.justify-space-between.mt-n3.mb-6
