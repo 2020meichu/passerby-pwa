@@ -29,7 +29,7 @@
 
 /* This element draws the tip. */
 .popup-bubble-anchor::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 26px;
   left: -3px;
@@ -49,9 +49,12 @@
   position: absolute;
   /* The max width of the info window. */
   width: 200px;
-  transition: .2s opacity ease-in-out;
+  transition: 0.2s opacity ease-in-out;
 }
 
 .popup-hidden {
   opacity: 0;
+}
+.mt-21 {
+  margin-top: 104px !important;
 }

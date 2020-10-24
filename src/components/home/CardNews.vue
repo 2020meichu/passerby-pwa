@@ -12,11 +12,11 @@ v-card.rounded-20(width='241', height='334', elevation='4' color="darkmode-super
       template(v-slot:activator='{ on, attrs }')
         v-chip.h-20(x-small, color='primary', text-color='darkmode-dark', v-on='on', v-bind='attrs') 繼續閱讀
       v-card.darkmode-dark
-        v-app-bar(app, color='darkmode-dark', height='104', elevation='4')
+        v-app-bar(fixed color='darkmode-dark', height='104', elevation='4')
           back-btn(@click.native='backHandler')
           v-spacer
           v-icon mdi-cog
-        v-main.mx-6
+        .mt-21.mx-6
           v-card-title.text-h5.darkmode-white--text 新冠肺炎4千萬人確診 學者估疫情明年2月才受控
           v-card-text
             .d-flex.justify-space-between.mt-n3.mb-6

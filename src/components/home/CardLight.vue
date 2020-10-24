@@ -8,11 +8,11 @@ v-card.rounded-20(width='241', height='334', elevation='4')
       template(v-slot:activator='{ on, attrs }')
         v-chip.h-20(x-small, :color='mappingLightInfo(light).color', text-color='darkmode-dark', v-on='on', v-bind='attrs') 詳細狀態
       v-card.darkmode-dark
-        v-app-bar(app, color='darkmode-dark', height='104', elevation='4')
+        v-app-bar(fixed, color='darkmode-dark', height='104', elevation='4')
           back-btn(@click.native='backHandler')
           v-spacer
           v-icon mdi-cog
-        v-main.mx-8
+        .mt-21.mx-8
           v-card-title.text-h5.darkmode-white--text 個人詳細狀態
           v-card-text
             card-light-detail
