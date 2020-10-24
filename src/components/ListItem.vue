@@ -21,8 +21,7 @@ export default class ListItem extends Vue {
 
   handleClick () {
     if (this.emitFunction) {
-      this.$emit('toggleSheet')
-      // this.$emit(this.emitFunction)
+      this.$emit(this.emitFunction)
     }
   }
 }
