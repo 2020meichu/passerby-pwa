@@ -94,6 +94,7 @@ export default class extends Vue {
 
 <style lang="scss" scoped>
 .signup-card {
+  z-index: 25;
   height: 564px;
   box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
   border-top-left-radius: 20px;

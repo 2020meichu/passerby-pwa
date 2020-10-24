@@ -1,7 +1,10 @@
 <template lang="pug">
-.sigin.primary.flex-column.justify-space-between
-  div
-    h1.fs-34.darkmode-white--text LOGO
+.sigin.flex-column.justify-space-between
+  div.bg-mask
+  div.bg
+  div.logo-section.flex-grow-1.d-flex.justify-center.align-center.flex-column
+    div.logo-section__logo.mb-3
+    p.mb-0.darkmode-dark--text Passerby
   .signin-card.darkmode-dark.px-12.pt-11
     div
       h1.fs-34.darkmode-white--text 使用者登入
@@ -38,11 +41,47 @@ export default class SignIn extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.bg-mask {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  background: #1DE9B6;
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+.bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color:white;
+  background-image: url('~@/assets/img/bg.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.logo-section {
+  z-index: 25;
+  &__logo {
+    width: 40px;
+    height: 60px;
+    background-image: url('~@/assets/img/passerby-logo.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  > p {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Cabin', sans-serif;
+  }
+}
 .sigin {
   height: 100%;
   display: flex;
 }
 .signin-card {
+  z-index: 50;
   height: 485px;
   box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
   border-top-left-radius: 20px;
