@@ -84,21 +84,21 @@ export default class CardLight extends Vue {
       return {
         name_zh: '紅燈',
         color: 'darkmode-danger',
-        imgUrl: require('@/assets/img/img_1.png'),
+        imgUrl: require('@/assets/img/red-light-img.png'),
         description: '傳染病帶原者、疑似帶原者或具接觸史、出國史之高風險族群，需實施隔離'
       }
     } else if (light === 'yellow') {
       return {
         name_zh: '黃燈',
         color: 'darkmode-yellow',
-        imgUrl: require('@/assets/img/img_1.png'),
+        imgUrl: require('@/assets/img/yellow-light-img.png'),
         description: '非高風險，但具一定傳染力，需配戴口罩或其他防護之醫療用品，以杜絕傳染'
       }
     } else {
       return {
         name_zh: '綠燈',
         color: 'primary',
-        imgUrl: require('@/assets/img/img_1.png'),
+        imgUrl: require('@/assets/img/green-light-img.png'),
         description: '低風險族群。現階段無傳染帶原，且無接觸、出國史'
       }
     }
