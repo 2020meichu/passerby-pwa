@@ -4,7 +4,7 @@
     v-subheader.subheader 使用者相關
     list-item(
       v-for="(item, i) in userSettingItems"
-      :key="i"
+      :key="`user-${i}`"
       :icon="item.icon"
       :title="item.title"
       :subTitle="item.subTitle"
@@ -14,12 +14,23 @@
     v-subheader.subheader 應用程式相關
     list-item(
       v-for="(item, i) in appSettingItems"
-      :key="i"
+      :key="`app-${i}`"
       :icon="item.icon"
       :title="item.title"
       :subTitle="item.subTitle"
       :emitFunction="item.emitFunction"
+      @toggleSheet="toggleSheet"
     )
+    v-bottom-sheet.darkmode-superdark(v-model="sheet")
+      v-sheet.darkmode-superdark(height="169px")
+        v-list.darkmode-superdark
+          v-subheader 語言
+          v-list-item(@click="toggleSheet")
+            v-list-item-content
+              v-list-item-title.primary--text 繁體中文
+          v-list-item(@click="toggleSheet")
+            v-list-item-content
+                v-list-item-title 英文
 </template>
 
 <script lang="ts">
@@ -40,6 +51,7 @@ interface settingItem {
   }
 })
 export default class Settings extends Vue {
+  sheet: boolean = false
   settingItems: Array<settingItem> = [
     {
       type: 'user',
@@ -67,7 +79,7 @@ export default class Settings extends Vue {
       icon: 'mdi-web',
       title: '語言',
       subTitle: '繁體中文',
-      emitFunction: null
+      emitFunction: 'toggleSheet'
     },
     {
       type: 'app',
@@ -88,6 +100,9 @@ export default class Settings extends Vue {
       return item.type === 'app'
     })
   }
+  toggleSheet () {
+    this.sheet = !this.sheet
+  }
 }
 </script>
 
@@ -100,7 +115,10 @@ export default class Settings extends Vue {
       padding: 0;
       font-size: 14px;
     }
-    
   }
+}
+.v-sheet {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 </style>>

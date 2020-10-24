@@ -20,7 +20,10 @@ export default class ListItem extends Vue {
   @Prop(String) readonly emitFunction!: string
 
   handleClick () {
-    if (this.emitFunction) this.$emit(this.emitFunction)
+    if (this.emitFunction) {
+      this.$emit('toggleSheet')
+      // this.$emit(this.emitFunction)
+    }
   }
 }
 </script>
