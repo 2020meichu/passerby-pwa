@@ -26,7 +26,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component
+@Component({
+  name: 'SignIn'
+})
 export default class SignIn extends Vue {
   valid: boolean = true
   id: string = ''

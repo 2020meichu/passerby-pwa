@@ -5,11 +5,11 @@ $colors: (
 
 @each $name, $color in $colors {
   .#{$name} {
-    background-color: $color;
-    border-color: $color;
+    background-color: $color !important;
+    border-color: $color !important;
     &--text {
-      color: $color;
-      caret-color: $color;
+      color: $color !important;
+      caret-color: $color !important;
     }
   }
 }

@@ -24,6 +24,7 @@ import Avatar from '@/components/Avatar.vue'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
+  name: 'Main',
   components: {
     Avatar
   }
