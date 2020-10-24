@@ -1,19 +1,21 @@
+import axios from '@/plugins/axios'
+
 interface FootprintRecord {
   longitude: Number,
   latitude: Number,
-  location: String,
-  address: String,
+  location: string,
+  address: string,
   time: Date
 }
 
 interface DepartureRecord {
   date: Date,
-  to: String
+  to: string
 }
 
 interface ArrivalRecord {
   date: Date,
-  from: String
+  from: string
 }
 
 interface InfectedRecord {
@@ -99,14 +101,17 @@ const getters: any = {
   },
   getFootprints (state: UserState): Array<FootprintRecord> {
     return state.footprints
+  },
+  getUsername (state: UserState): string {
+    return state.username
+  },
+  getUserAvatar (state: UserState): string {
+    return state.avatar
   }
 }
 
 const mutations: any = {
-  setAvatar (state: UserState, value: string): void {
-    state.avatar = value
-  },
-  setUser (state: UserState, value: any): void {
+  SET_user (state: UserState, value: any): void {
     state.id = value.id
     state.username = value.username
     state.footprints = value.footprints
@@ -114,10 +119,46 @@ const mutations: any = {
     state.arrivals = value.arrivals
     state.quarantine = value.quarantine
     state.infected = value.infected
+    state.avatar = value.avatar
   }
 }
 
-const actions: any = {}
+const actions: any = {
+  async getUserData(context: any): Promise<void> {
+    const token = localStorage['token']
+    if (!token) { return }
+
+    const { data } = await axios.get('/user', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    data.user.avatar = `${process.env.VUE_APP_API_ENDPOINT}${data.user.avatar}`
+    context.commit('SET_user', data.user)
+  },
+  async register(context: any, options: any): Promise<void> {
+    const formData:FormData = new FormData()
+    Object.keys(options).forEach((key: string): void => {
+      formData.append(key, options[key])
+    })
+    const { data } = await axios.post('/register', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    // Save the token to local storage
+    localStorage['token'] = data.token
+    data.user.avatar = `${process.env.VUE_APP_API_ENDPOINT}/${data.user.avatar}`
+    context.commit('SET_user', data.user)
+  },
+  async login(context: any, options: any): Promise<void> {
+    const { data } = await axios.post('/login', options)
+    // Save the token to local storage
+    localStorage['token'] = data.token
+    data.user.avatar = `${process.env.VUE_APP_API_ENDPOINT}/${data.user.avatar}`
+    context.commit('SET_user', data.user)
+  }
+}
 
 export default {
   namespaced: true,

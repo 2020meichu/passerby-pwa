@@ -1,9 +1,10 @@
 <template lang="pug">
 .primary.avatar.d-flex.justify-center.align-center
-  img(:src='imgPath')
+  img(ref="avatar")
 </template>
 
 <script lang="ts">
+import axios from '@/plugins/axios'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component({
@@ -12,6 +13,22 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 
 export default class Avatar extends Vue {
   @Prop(String) readonly imgPath!: string
+  $refs!: {
+    avatar: HTMLImageElement
+  }
+
+  async mounted (): Promise<void> {
+    // Obtain image through axios GET request
+    const { data } = await axios.get(this.imgPath, {
+      responseType: 'blob'
+    })
+    const reader = new (window as any).FileReader()
+    reader.readAsDataURL(data)
+    reader.onload = (): void => {
+      const imageDataUrl = reader.result
+      this.$refs.avatar.setAttribute('src', imageDataUrl)
+    }
+  }
 }
 </script>
 

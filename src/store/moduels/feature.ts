@@ -4,10 +4,22 @@ interface Footprint {
 
 interface CheckIn {}
 
+interface Notification {
+  isDisplay: boolean,
+  message: string,
+  color: string
+}
+
+interface NotificationOptions {
+  message: string,
+  color: string
+}
+
 interface FeatureState {
-  footprint: Footprint
-  checkIn: CheckIn
-  isLoading: boolean
+  footprint: Footprint,
+  checkIn: CheckIn,
+  notification: Notification,
+  isLoading: boolean,
 }
 
 const state: FeatureState = {
@@ -15,7 +27,12 @@ const state: FeatureState = {
     currentTab: 0
   },
   checkIn: {},
-  isLoading: false
+  isLoading: false,
+  notification: {
+    isDisplay: false,
+    message: '',
+    color: ''
+  }
 }
 
 const getters: any = {
@@ -24,19 +41,42 @@ const getters: any = {
   },
   getIsLoading(state: FeatureState): boolean {
     return state.isLoading
+  },
+  getNotification(state: FeatureState): Notification {
+    return state.notification
   }
 }
 
 const mutations: any = {
-  setFootprintCurrentTab(state: FeatureState, value: Number): void {
+  SET_footprintCurrentTab(state: FeatureState, value: Number): void {
     state.footprint.currentTab = value
+  },
+  SET_notificationMessage(state: FeatureState, value: string): void {
+    state.notification.message = value
+  },
+  SET_notificationColor(state: FeatureState, value: string): void {
+    state.notification.color = value
   },
   TOGGLE_isLoading(state: FeatureState): void {
     state.isLoading = !state.isLoading
+  },
+  SET_notificationIsDisplay(state: FeatureState, value: boolean): void {
+    state.notification.isDisplay = value
   }
 }
 
-const actions: any = {}
+const actions: any = {
+  openNotification (context: any, options: NotificationOptions): void {
+    context.commit('SET_notificationIsDisplay', true)
+    context.commit('SET_notificationColor', options.color)
+    context.commit('SET_notificationMessage', options.message)
+  },
+  closeNotification(context: any): void {
+    context.commit('SET_notificationIsDisplay', false)
+    context.commit('SET_notificationColor', '')
+    context.commit('SET_notificationMessage', '')
+  }
+}
 
 export default {
   namespaced: true,

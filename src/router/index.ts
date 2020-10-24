@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -7,23 +8,50 @@ const routes: Array<RouteConfig> = [
   {
     path: '/sign-in',
     name: 'SignIn',
-    component: () => import('@/views/SignIn.vue')
+    component: () => import('@/views/SignIn.vue'),
+    beforeEnter: function (to, from, next) {
+      // check if access token exist
+      const token = localStorage['token']
+      if (token) {
+        next({ path: '/', replace: true })
+        return
+      }
+      next()
+    }
   },
   {
     path: '/sign-up',
     name: 'SignUp',
-    component: () => import('@/views/SignUp.vue')
+    component: () => import('@/views/SignUp.vue'),
+    beforeEnter: function (to, from, next) {
+      // check if access token exist
+      const token = localStorage['token']
+      if (token) {
+        next({ path: '/', replace: true })
+        return
+      }
+      next()
+    }
   },
   {
     path: '/',
     name: 'Main',
     component: () => import('@/views/Main.vue'),
-    beforeEnter: (to, from, next) => {
-      const login: boolean = true
-      if (login) {
-        next()
-      } else {
+    beforeEnter: async (to, from, next) => {
+      const token = localStorage['token']
+      if (!token) {
         next({ path: '/sign-in' })
+        return
+      }
+      try {
+        await store.dispatch('user/getUserData')
+        next()
+      } catch (error) {
+        store.dispatch('feature/openNotification', {
+          message: '系統資訊：無法獲得你的帳戶資料',
+          color: 'red'
+        })
+        next({ path: '/sign-in', replace: true })
       }
     },
     redirect: 'home',
@@ -51,6 +79,8 @@ const routes: Array<RouteConfig> = [
     ]
   }
 ]
+
+
 
 const router = new VueRouter({
   mode: 'history',

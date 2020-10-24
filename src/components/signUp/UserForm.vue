@@ -97,7 +97,6 @@ export default class UserForm extends Vue {
   }
 
   submitHandler () {
-    console.log()
     const check:boolean = this.$refs.form.validate()
     if (!check) {
       return

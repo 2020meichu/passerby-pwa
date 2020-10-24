@@ -2,7 +2,7 @@
 .settings-root.d-flex.justify-center
   v-list.list.darkmode-dark
     v-subheader.subheader 使用者相關
-    list-item(
+    list-item.pl-4.pr-4(
       v-for="(item, i) in userSettingItems"
       :key="`user-${i}`"
       :icon="item.icon"
@@ -12,7 +12,7 @@
     )
     v-divider
     v-subheader.subheader 應用程式相關
-    list-item(
+    list-item.pl-4.pr-4(
       v-for="(item, i) in appSettingItems"
       :key="`app-${i}`"
       :icon="item.icon"
@@ -25,10 +25,10 @@
       v-sheet.darkmode-superdark(height="169px")
         v-list.darkmode-superdark
           v-subheader 語言
-          v-list-item(@click="toggleSheet")
+          v-list-item.pl-4.pr-4(@click="toggleSheet")
             v-list-item-content
               v-list-item-title.primary--text 繁體中文
-          v-list-item(@click="toggleSheet")
+          v-list-item.pl-4.pr-4(@click="toggleSheet")
             v-list-item-content
                 v-list-item-title 英文
 </template>
@@ -36,6 +36,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
+import { Mutation, Getter } from 'vuex-class'
 
 interface settingItem {
   type: string
@@ -51,13 +52,14 @@ interface settingItem {
   }
 })
 export default class Settings extends Vue {
+  @Getter('user/getUsername') public username!: string
   sheet: boolean = false
   settingItems: Array<settingItem> = [
     {
       type: 'user',
       icon: 'mdi-border-color',
       title: '更改使用者名稱',
-      subTitle: '目前名稱: 俊豪',
+      subTitle: `目前名稱: ${this.username}`,
       emitFunction: null
     },
     {
@@ -89,6 +91,9 @@ export default class Settings extends Vue {
       emitFunction: null
     }
   ]
+  mounted () {
+    this.settingItems[0].subTitle = `目前名稱: ${this.username}`
+  }
 
   get userSettingItems(): Array<settingItem> {
     return this.settingItems.filter(item => {

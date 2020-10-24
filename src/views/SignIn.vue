@@ -9,8 +9,8 @@
     div
       h1.fs-34.darkmode-white--text 使用者登入
     .pt-4
-      v-form(ref='form', v-model='valid', lazy-validation)
-        v-text-field(v-model='id', type='text', label='身分證字號', color='primary', required)
+      v-form(ref='form', v-model="valid", lazy-validation, @submit.prevent="submitHandler")
+        v-text-field(v-model='id', type='text', label='身分證字號', color='primary', :rules="idRule", required)
         v-text-field(
           v-model='password',
           :type='passwordVisiable ? "text" : "password"',
@@ -18,25 +18,60 @@
           @click:append='passwordVisiable = !passwordVisiable',
           label='使用者密碼',
           color='primary',
+          :rules="passwordRule",
           required
         )
         p.d-flex.justify-end.mb-6.fs-12.primary--text 忘記使用者密碼？
-        v-btn(color='primary', block) 登入
+        v-btn(color='primary', block, type="submit") 登入
         p.d-flex.justify-center.mt-5.mb-3.fs-12 尚未擁有帳號？
         v-btn(color='primary', block, outlined, to='/sign-up') 註冊新帳號
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Action } from 'vuex-class'
 
 @Component({
   name: 'SignIn'
 })
 export default class SignIn extends Vue {
+  @Action('user/login') public login!: Function
+  @Action('feature/openNotification') public openNotification!: Function
   valid: boolean = true
   id: string = ''
   password: string = ''
   passwordVisiable: boolean = false
+  idRule:any = [
+    (v:boolean|string) => !!v || '此格為必填',
+    (v:boolean|string) => (v && (v as string).length == 10) || '身分證字號必為10碼'
+  ]
+  passwordRule:any = [
+    (v:boolean|string) => !!v || '此格為必填',
+  ]
+
+  $refs!: {
+    form: HTMLFormElement
+  }
+
+  async submitHandler (): Promise<void> {
+    const check:boolean = this.$refs.form.validate()
+    if (!check) {
+      return
+    }
+    try {
+      await this.login({
+        id: this.id,
+        password: this.password
+      })
+    } catch (error) {
+      if ('response' in error) {
+        this.openNotification({
+          message: `系統資訊：${error.response.data.message}`,
+          color: 'red'
+        })
+      }
+    }
+  }
 }
 </script>
 

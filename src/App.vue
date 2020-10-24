@@ -10,10 +10,18 @@ v-app
         v-spacer
         v-btn(color='green darken-1', text, @click='closeApp') 了解
   loading
+  v-snackbar(v-model="notification.isDisplay" :timeout="3000" :color="notification.color") {{ notification.message }}
+    template(v-slot:action="{ attrs }")
+        v-btn(
+          color="white"
+          text
+          v-bind="attrs"
+          @click="closeNotification") Close
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapActions, mapGetters } from 'vuex'
 import Loading from '@/components/Loading.vue'
 
 export default Vue.extend({
@@ -26,6 +34,11 @@ export default Vue.extend({
       isDisplayDialog: false
     }
   },
+  computed: {
+    ...mapGetters({
+      notification: 'feature/getNotification'
+    })
+  },
   mounted() {
     ;(window as any).navigator.permissions.query({ name: 'geolocation' }).then((result: any) => {
       console.log(result)
@@ -33,6 +46,9 @@ export default Vue.extend({
     })
   },
   methods: {
+    ...mapActions({
+      closeNotification: 'feature/closeNotification'
+    }),
     closeApp() {
       ;(window as any).close()
     }
