@@ -1,5 +1,5 @@
 <template lang="pug">
-v-card.rounded-xl(width='241', height='334', elevation='4')
+v-card.rounded-20(width='241', height='334', elevation='4')
   v-img.rounded-b-0(:src='mappingLightInfo(light).imgUrl', height='188')
   v-card-title.text-h5.lh-24(:class='`${mappingLightInfo(light).color}--text`') {{ mappingLightInfo(light).name_zh + "等級" }}
   v-card-text.fs-12.lh-16.text-dot-2.text-justify {{ mappingLightInfo(light).description }}

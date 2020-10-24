@@ -1,9 +1,22 @@
 <template lang="pug">
-  div
+.root.d-flex.align-end.justify-space-between
+  h1.fs-34.darkmode-white--text 打卡成功
+  .fs-12
+    v-icon(x-small, color='primary') mdi-map-marker
+    span.primary--text 東港神秘小地方
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default class extends Vue {}
+@Component({
+  name: 'FunctionBarCheckIn'
+})
+export default class FunctionBarCheckIn extends Vue {}
 </script>
+
+<style lang="scss" scoped>
+.root {
+  width: 100%;
+}
+</style>

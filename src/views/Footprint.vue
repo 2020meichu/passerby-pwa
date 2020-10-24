@@ -1,21 +1,20 @@
 <template lang="pug">
-  div.foot-print-root
-    div#map
+.foot-print-root
+  #map
 </template>
 
 <script lang="ts">
 import axios from '@/plugins/axios.ts'
 import { Component, Vue } from 'vue-property-decorator'
 
-
 // The interface of coords
 interface Coords {
-  lng: Number,
+  lng: Number
   lat: Number
 }
 interface FootprintRecord {
-  longitude: Number,
-  latitude: Number,
+  longitude: Number
+  latitude: Number
   name: string
 }
 
@@ -27,7 +26,7 @@ export default class Footprint extends Vue {
   map: any = null
   footprints: Array<FootprintRecord> = []
 
-  async mounted () {
+  async mounted() {
     // // TODO: Obtain the footprints data from backend server
     // this.footprints = await axios.get('')
     // The position to display
@@ -42,7 +41,7 @@ export default class Footprint extends Vue {
       // Get the user's current position
       if ('geolocation' in (window as any).navigator) {
         // Get the geolocation
-        (window as any).navigator.geolocation.getCurrentPosition(function (position: any): void {
+        ;(window as any).navigator.geolocation.getCurrentPosition(function (position: any): void {
           targetPosition.lng = position.coords.longitude
           targetPosition.lat = position.coords.latitude
         })
@@ -64,78 +63,78 @@ export default class Footprint extends Vue {
         {
           featureType: 'administrative.locality',
           elementType: 'labels.text.fill',
-          stylers: [{ color: '#d59563' }],
+          stylers: [{ color: '#d59563' }]
         },
         {
           featureType: 'poi',
           elementType: 'labels.text.fill',
-          stylers: [{ color: '#d59563' }],
+          stylers: [{ color: '#d59563' }]
         },
         {
           featureType: 'poi.park',
           elementType: 'geometry',
-          stylers: [{ color: '#263c3f' }],
+          stylers: [{ color: '#263c3f' }]
         },
         {
           featureType: 'poi.park',
           elementType: 'labels.text.fill',
-          stylers: [{ color: '#6b9a76' }],
+          stylers: [{ color: '#6b9a76' }]
         },
         {
           featureType: 'road',
           elementType: 'geometry',
-          stylers: [{ color: '#38414e' }],
+          stylers: [{ color: '#38414e' }]
         },
         {
           featureType: 'road',
           elementType: 'geometry.stroke',
-          stylers: [{ color: '#212a37' }],
+          stylers: [{ color: '#212a37' }]
         },
         {
           featureType: 'road',
           elementType: 'labels.text.fill',
-          stylers: [{ color: '#9ca5b3' }],
+          stylers: [{ color: '#9ca5b3' }]
         },
         {
           featureType: 'road.highway',
           elementType: 'geometry',
-          stylers: [{ color: '#746855' }],
+          stylers: [{ color: '#746855' }]
         },
         {
           featureType: 'road.highway',
           elementType: 'geometry.stroke',
-          stylers: [{ color: '#1f2835' }],
+          stylers: [{ color: '#1f2835' }]
         },
         {
           featureType: 'road.highway',
           elementType: 'labels.text.fill',
-          stylers: [{ color: '#f3d19c' }],
+          stylers: [{ color: '#f3d19c' }]
         },
         {
           featureType: 'transit',
           elementType: 'geometry',
-          stylers: [{ color: '#2f3948' }],
+          stylers: [{ color: '#2f3948' }]
         },
         {
           featureType: 'transit.station',
           elementType: 'labels.text.fill',
-          stylers: [{ color: '#d59563' }],
+          stylers: [{ color: '#d59563' }]
         },
         {
           featureType: 'water',
           elementType: 'geometry',
-          stylers: [{ color: '#17263c' }],
+          stylers: [{ color: '#17263c' }]
         },
         {
           featureType: 'water',
           elementType: 'labels.text.fill',
-          stylers: [{ color: '#515c6d' }],
+          stylers: [{ color: '#515c6d' }]
         },
         {
           featureType: 'water',
           elementType: 'labels.text.stroke',
-          stylers: [{ color: '#17263c' }],
-        },
+          stylers: [{ color: '#17263c' }]
+        }
       ]
     })
   }
@@ -143,12 +142,12 @@ export default class Footprint extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .foot-print-root {
-    height: 100%;
-    overflow: scroll;
-  }
+.foot-print-root {
+  height: 100%;
+  overflow: scroll;
+}
 
-  #map {
-    height: 100%;
-  }
+#map {
+  height: 100%;
+}
 </style>
