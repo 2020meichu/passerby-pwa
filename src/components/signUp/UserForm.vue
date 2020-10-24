@@ -19,11 +19,11 @@
         required
       )
       v-text-field(
-        v-model='name'
+        v-model='username'
         type='text'
         label='使用者名稱'
         color='primary'
-        :rules="nameRule"
+        :rules="usernameRule"
         required
       )
       v-text-field(
@@ -69,7 +69,7 @@ import { Component, Vue } from 'vue-property-decorator'
 export default class UserForm extends Vue {
   valid: boolean = true
   id: string = ''
-  name: string = ''
+  username: string = ''
   password: string = ''
   confirmPassword: string = ''
   passwordVisiable: boolean = false
@@ -78,7 +78,7 @@ export default class UserForm extends Vue {
     (v:boolean|string) => !!v || '此格為必填',
     (v:boolean|string) => (v && (v as string).length == 10) || '身分證字號必為10碼'
   ]
-  nameRule:any = [
+  usernameRule:any = [
     (v:boolean|string) => !!v || '此格為必填',
   ]
   passwordRule:any = [
@@ -104,7 +104,7 @@ export default class UserForm extends Vue {
     }
     this.$emit('switchStep2', {
       id: this.id,
-      name: this.name,
+      username: this.username,
       password: this.password
     })
   }

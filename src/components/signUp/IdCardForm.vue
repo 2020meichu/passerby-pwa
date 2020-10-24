@@ -55,10 +55,6 @@ export default class extends Vue {
     this.isUploading = true
     try {
       const clipped:string = await FaceRecognition.getFaceImageDataURL(this.photo, 200)
-      // TODO: upload to the server instead
-      localStorage['avatar'] = clipped
-      this.setAvatar(clipped)
-
       // The function to transfer from dataURL to Blob
       const dataURLtoBlob = (dataurl: string): Blob => {
         const arr = dataurl.split(','), mime = (arr[0].match(/:(.*?);/) as Array<string>)[1],
@@ -76,6 +72,7 @@ export default class extends Vue {
       })
       formData.append('id_photo', dataURLtoBlob(this.photo))
       formData.append('avatar', dataURLtoBlob(clipped))
+      console.log(this.userData, formData)
 
       const { data } = await axios.post('/register', formData, {
         headers: {
@@ -83,8 +80,10 @@ export default class extends Vue {
         }
       })
       // Save the token to local storage
-      localStorage['token'] = data.token
+      localStorage['token'] = data.user.token
+      data.user.avatar = `${data.user.avatar}`
       this.setUser(data.user)
+      this.$router.replace('/home')
     } catch (error) {
       console.log(error)
     }
