@@ -30,14 +30,14 @@ import Popup from '@/plugins/popup'
 
 // The interface of coord
 interface Coord {
-  lng: Number,
-  lat: Number
+  longitude: Number,
+  latitude: Number
 }
 interface FootprintRecord {
   longitude: Number,
   latitude: Number,
-  location: String,
-  address: String,
+  location: string,
+  address: string,
   time: Date
 }
 interface FeatureFootprint {
@@ -62,33 +62,39 @@ export default class Footprint extends Vue {
   pickDate: string =  ''
   isDisplayDatePicker: boolean = false
   currentMarkers: Array<FootprintMakrerRecord> = []
+  currentPosition: Coord = {
+    longitude: 0,
+    latitude: 0
+  }
 
   async mounted () {
     // If there is no footprints, then display the user's current position
     // Or display the last footprint's location
-    let targetPosition: Coord = {
-      lng: 120.8966433,
-      lat: 24.7834628
-    }
+    let targetPosition: Coord
+
+    // Obtain the current position
+    const position: any = await new Promise((resolve, reject) => {
+      ;(window as any).navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
+    this.currentPosition.longitude = position.coords.longitude
+    this.currentPosition.latitude = position.coords.latitude
+    console.log(position)
 
     if (this.userFootprints.length === 0) {
       // Get the user's current position
-      if ('geolocation' in (window as any).navigator) {
-        // Get the geolocation
-        ;(window as any).navigator.geolocation.getCurrentPosition(function (position: any): void {
-          targetPosition.lng = position.coords.longitude
-          targetPosition.lat = position.coords.latitude
-        })
-      }
+      targetPosition = this.currentPosition
     } else {
-      const targetPosition: Object = this.userFootprints[this.userFootprints.length - 1]
+      targetPosition = {
+        latitude: this.userFootprints[this.userFootprints.length - 1].latitude,
+        longitude: this.userFootprints[this.userFootprints.length - 1].longitude
+      }
       this.targetDate = this.userFootprints[this.userFootprints.length - 1].time
     }
     // Display the google map on the map container
     const mapElement: HTMLElement = document.querySelector('#map') as HTMLElement
 
     this.map = new (window as any).google.maps.Map(mapElement, {
-      center: targetPosition,
+      center: { lat: targetPosition.latitude, lng: targetPosition.longitude },
       zoom: 12,
       disableDefaultUI: true,
       mapTypeControl: false,
@@ -220,6 +226,23 @@ export default class Footprint extends Vue {
         marker
       }
     })
+    const userPosition = new (window as any).google.maps.LatLng(this.currentPosition.latitude, this.currentPosition.longitude)
+    this.currentMarkers.push({
+      popup: new Popup(userPosition, document.createElement('div')),
+      marker: new (window as any).google.maps.Marker({
+        position: userPosition,
+        map: this.map,
+        icon: require('@/assets/img/user-marker.svg')
+      })
+    })
+    // Center zoom of map to cover all visible markers
+    if (this.currentMarkers.length > 0) {
+      const bounds = new (window as any).google.maps.LatLngBounds()
+      this.currentMarkers.forEach((target: FootprintMakrerRecord): void => {
+        bounds.extend(target.marker.getPosition())
+      })
+      this.map.setCenter(bounds.getCenter())
+    }
   }
 
   filterDateAndTime(value: Date): string {

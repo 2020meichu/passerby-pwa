@@ -1,8 +1,8 @@
 <template lang="pug">
 .root
-  v-tabs.pl-10.mb-8(v-model='currentTab', background-color='darkmode-dark', height='20')
-    v-tab 最新消息
-    v-tab 個人狀態
+  v-tabs.pl-10.mb-8(v-model='currentTab', background-color='darkmode-dark', height='22')
+    v-tab.pb-2(:ripple="false") 最新消息
+    v-tab.pb-2(:ripple="false") 個人狀態
   v-tabs-items.darkmode-dark(v-model='currentTab')
     v-tab-item
       .list.pl-10
@@ -53,4 +53,10 @@ export default class Home extends Vue {
     }
   }
 }
+.theme--dark.v-tabs .v-tab--active:hover::before, .theme--dark.v-tabs .v-tab--active::before {
+  opacity: 0 !important;
+}
+// .v-tabs::v-deep .v-tabs-slider-wrapper {
+//   bottom: 8px !important;
+// }
 </style>

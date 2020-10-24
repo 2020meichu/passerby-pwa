@@ -31,7 +31,9 @@ class FaceRecognition {
     const detections = await faceapi.detectAllFaces(image as any, this.faceDetectionOptions)
 
     if (detections.length > 1) {
-      throw 'There are multiple faces detected in this image'
+      throw '在這張圖片中檢測到多張臉，請重新拍照試試'
+    } else if (detections.length === 0) {
+      throw '在這張圖片中沒有檢測到任何一張臉，請重新拍照試試'
     }
 
     const box:faceapi.Box = detections[0].box

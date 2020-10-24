@@ -24,7 +24,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { component } from 'vue/types/umd'
-import { Mutation, Getter } from 'vuex-class'
+import { Getter, Action } from 'vuex-class'
 import TakePhoto from '@/components/signUp/TakePhoto.vue'
 import FaceRecognition from '@/plugins/face-recognition'
 import axios from '@/plugins/axios'
@@ -38,10 +38,11 @@ import axios from '@/plugins/axios'
 export default class extends Vue {
   @Prop(Object) readonly userData!: any
   
-  @Mutation('user/setAvatar') public setAvatar!: Function
-  @Mutation('user/setUser') public setUser!: Function
+  @Action('feature/openNotification') public openNotification!: Function
+  @Action('user/register') public register!: Function
   isTakePhoto: boolean = false
   isUploading: boolean = false
+  isDisplaySnackbar: boolean = false
   photo: any = null
 
   async setPhoto (photo:any): Promise<void> {
@@ -65,26 +66,21 @@ export default class extends Vue {
         }
         return new Blob([uint8arr], { type:mime })
       }
-
-      const formData:FormData = new FormData()
-      Object.keys(this.userData).forEach((key: string): void => {
-        formData.append(key, this.userData[key])
+      await this.register({
+        ...this.userData,
+        id_photo: dataURLtoBlob(this.photo),
+        avatar: dataURLtoBlob(clipped)
       })
-      formData.append('id_photo', dataURLtoBlob(this.photo))
-      formData.append('avatar', dataURLtoBlob(clipped))
-      console.log(this.userData, formData)
-
-      const { data } = await axios.post('/register', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      this.$router.replace('/')
+      this.openNotification({
+        message: '系統資訊：身份證已上傳成功',
+        type: ''
       })
-      // Save the token to local storage
-      localStorage['token'] = data.user.token
-      data.user.avatar = `${data.user.avatar}`
-      this.setUser(data.user)
-      this.$router.replace('/home')
     } catch (error) {
+      this.openNotification({
+        message: `系統資訊：${error}`,
+        color: 'red'
+      })
       console.log(error)
     }
     this.isUploading = false

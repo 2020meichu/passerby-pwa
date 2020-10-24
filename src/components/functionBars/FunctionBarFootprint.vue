@@ -20,10 +20,10 @@ interface Footprint {
 
 export default class FunctionBarFootprint extends Vue {
   @Getter('feature/getFootprint') public footprint!: Footprint
-  @Mutation('feature/setFootprintCurrentTab') public setFootprintCurrentTab!: Function
+  @Mutation('feature/SET_footprintCurrentTab') public SET_footprintCurrentTab!: Function
 
   changeTab(index: Number): void {
-    this.setFootprintCurrentTab(index)
+    this.SET_footprintCurrentTab(index)
   }
 }
 </script>
