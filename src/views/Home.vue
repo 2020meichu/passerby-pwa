@@ -9,18 +9,22 @@
         card-news
         card-news
     v-tab-item
+      .d-flex.justify-center
+        card-light(:light='"yellow"')
 </template>
 
 <script lang='ts'>
 import CardNews from '@/components/home/CardNews.vue'
+import CardLight from '@/components/home/CardLight.vue'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
+  name: 'Home',
   components: {
-    CardNews
+    CardNews,
+    CardLight
   }
 })
-
 export default class Home extends Vue {
   currentTab: number = 0
 }
@@ -49,5 +53,4 @@ export default class Home extends Vue {
     }
   }
 }
-
 </style>
