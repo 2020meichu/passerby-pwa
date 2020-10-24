@@ -9,6 +9,7 @@
       :title="item.title"
       :subTitle="item.subTitle"
       :emitFunction="item.emitFunction"
+      @logout="logout"
     )
     v-divider
     v-subheader.subheader 應用程式相關
@@ -74,7 +75,7 @@ export default class Settings extends Vue {
       icon: 'mdi-login',
       title: '帳號登出',
       subTitle: null,
-      emitFunction: null
+      emitFunction: 'logout'
     },
     {
       type: 'app',
@@ -107,6 +108,10 @@ export default class Settings extends Vue {
   }
   toggleSheet () {
     this.sheet = !this.sheet
+  }
+  logout () {
+    localStorage.removeItem('token')
+    this.$router.replace('/sign-in')
   }
 }
 </script>
