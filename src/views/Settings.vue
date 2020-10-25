@@ -9,7 +9,7 @@
       :title="item.title"
       :subTitle="item.subTitle"
       :emitFunction="item.emitFunction"
-      @logout="logout"
+      @emitLogoutDialog="emitLogoutDialog"
     )
     v-divider
     v-subheader.subheader 應用程式相關
@@ -32,6 +32,20 @@
           v-list-item.pl-4.pr-4(@click="toggleSheet")
             v-list-item-content
                 v-list-item-title 英文
+    v-overlay(
+      :value="dialog"
+      opacity="0.7"
+    )
+      v-dialog(
+        v-model="dialog"
+        width="279"
+      )
+        v-card.darkmode-dark(width="279")
+          v-card-title 是否登出
+          v-card-actions
+            v-spacer
+            v-btn(color="primary" text @click="dialog = false") 取消
+            v-btn(color="primary" text @click="logout").ml-0 確定
 </template>
 
 <script lang="ts">
@@ -55,6 +69,7 @@ interface settingItem {
 export default class Settings extends Vue {
   @Getter('user/getUsername') public username!: string
   sheet: boolean = false
+  dialog: boolean = false
   settingItems: Array<settingItem> = [
     {
       type: 'user',
@@ -75,7 +90,7 @@ export default class Settings extends Vue {
       icon: 'mdi-login',
       title: '帳號登出',
       subTitle: null,
-      emitFunction: 'logout'
+      emitFunction: 'emitLogoutDialog'
     },
     {
       type: 'app',
@@ -109,7 +124,11 @@ export default class Settings extends Vue {
   toggleSheet () {
     this.sheet = !this.sheet
   }
+  emitLogoutDialog () {
+    this.dialog = true
+  }
   logout () {
+    this.dialog = false
     localStorage.removeItem('token')
     this.$router.replace('/sign-in')
   }
@@ -130,5 +149,8 @@ export default class Settings extends Vue {
 .v-sheet {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+}
+.v-dialog > .v-card {
+  border-radius: 20px;
 }
 </style>>
