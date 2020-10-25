@@ -56,6 +56,7 @@ interface FootprintMakrerRecord {
 export default class Footprint extends Vue {
   @Getter('feature/getFootprint') public featureFootprint!: FeatureFootprint
   @Getter('user/getFootprints') public userFootprints!: Array<FootprintRecord>
+  @Mutation('feature/TOGGLE_isLoading') public TOGGLE_isLoading!: Function
   // Variables declaration
   map: any = null
   targetDate: Date = new Date()
@@ -66,8 +67,10 @@ export default class Footprint extends Vue {
     longitude: 0,
     latitude: 0
   }
+  isMapLoading: boolean = true
 
   async mounted () {
+    this.TOGGLE_isLoading()
     // If there is no footprints, then display the user's current position
     // Or display the last footprint's location
     let targetPosition: Coord
@@ -184,6 +187,9 @@ export default class Footprint extends Vue {
         }
       ]
     })
+    this.map.addListener('tilesloaded', ():void => {
+      this.TOGGLE_isLoading()
+    })
     // Draw the markers
     this.drawMarkers()
     this.map.addListener('click', (): void => {
@@ -194,9 +200,10 @@ export default class Footprint extends Vue {
   }
   drawMarkers () {
     const filteredRecords = this.userFootprints.filter((target : FootprintRecord): boolean => {
-      return target.time.getFullYear() === this.targetDate.getFullYear() &&
-      target.time.getMonth() === this.targetDate.getMonth() &&
-      target.time.getDate() === this.targetDate.getDate()
+      const targetTime = new Date(target.time)
+      return targetTime.getFullYear() === this.targetDate.getFullYear() &&
+        targetTime.getMonth() === this.targetDate.getMonth() &&
+        targetTime.getDate() === this.targetDate.getDate()
     })
     this.currentMarkers = filteredRecords.map((target: FootprintRecord): any => {
       // Map the data into coord structure
@@ -246,13 +253,13 @@ export default class Footprint extends Vue {
   }
 
   filterDateAndTime(value: Date): string {
-    const time = value.toISOString().split('T')[1].split('.')[0].split(':').slice(0, 2).join(':')
-    const date = value.toISOString().split('T')[0]
+    const time = new Date(value).toISOString().split('T')[1].split('.')[0].split(':').slice(0, 2).join(':')
+    const date = new Date(value).toISOString().split('T')[0]
     return `${date} ${time}`
   }
 
   filterDate(value: Date): string {
-    return value.toISOString().split('T')[0]
+    return new Date(value).toISOString().split('T')[0]
   }
 
   get userFootprintsSorted (): any {
@@ -267,7 +274,8 @@ export default class Footprint extends Vue {
   
     const result: any = {}
     this.userFootprints.forEach((target: FootprintRecord): void => {
-      const key: string = `${target.time.toISOString().split('T')[0].replace('-', '.')} ${weekdays[target.time.getDay()]}`
+      const targetTime = new Date(target.time)
+      const key: string = `${targetTime.toISOString().split('T')[0].replace('-', '.')} ${weekdays[targetTime.getDay()]}`
       if (!result[key]) { result[key] = [] }
       result[key].push(target)
     })

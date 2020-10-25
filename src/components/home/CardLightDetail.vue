@@ -30,14 +30,45 @@ div
 </template>
 
 <script lang='ts'>
+import axios from '@/plugins/axios'
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Action } from 'vuex-class'
+
+
+
+interface DepartureRecord {
+  date: Date,
+  to: string
+}
+
+interface ArrivalRecord {
+  date: Date,
+  from: string
+}
+
+interface InfectedRecord {
+  disease_id: Number,
+  date: Date,
+  recover: boolean
+}
+
+interface QuarantineRecord {
+  start: Date,
+  end: Date
+}
 
 @Component({
   name: 'CardLightDetail'
 })
 export default class CardLightDetail extends Vue {
+  @Action('user/getCurrentLightInfo') public getCurrentLightInfo!: Function
+
   matchedRed: boolean = true
   matchedYellow: boolean = true
   matchedGreen: boolean = false
+
+  async mounted () {
+    const result = await this.getCurrentLightInfo()
+  }
 }
 </script>
