@@ -70,7 +70,9 @@ export default class Footprint extends Vue {
   isMapLoading: boolean = true
 
   async mounted () {
-    this.TOGGLE_isLoading()
+    if (this.featureFootprint.currentTab === 0) {
+      this.TOGGLE_isLoading()
+    }
     // If there is no footprints, then display the user's current position
     // Or display the last footprint's location
     let targetPosition: Coord
