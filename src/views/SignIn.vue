@@ -3,7 +3,7 @@
   div.bg-mask
   div.bg
   div.logo-section.flex-grow-1.d-flex.justify-center.align-center.flex-column
-    div.logo-section__logo.mb-3
+    div.logo-section__logo.mb-2.mt-4
     p.mb-0.darkmode-dark--text Passerby
   .signin-card.darkmode-dark.px-12.pt-11
     div
@@ -100,8 +100,8 @@ export default class SignIn extends Vue {
 .logo-section {
   z-index: 25;
   &__logo {
-    width: 40px;
-    height: 60px;
+    width: 54px;
+    height: 80px;
     background-image: url('~@/assets/img/passerby-logo.svg');
     background-size: contain;
     background-repeat: no-repeat;
