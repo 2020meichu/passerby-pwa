@@ -91,7 +91,7 @@ export default class Footprint extends Vue {
         latitude: this.userFootprints[this.userFootprints.length - 1].latitude,
         longitude: this.userFootprints[this.userFootprints.length - 1].longitude
       }
-      this.targetDate = this.userFootprints[this.userFootprints.length - 1].time
+      this.targetDate = new Date(this.userFootprints[this.userFootprints.length - 1].time)
     }
     // Display the google map on the map container
     const mapElement: HTMLElement = document.querySelector('#map') as HTMLElement
@@ -187,9 +187,13 @@ export default class Footprint extends Vue {
         }
       ]
     })
-    this.map.addListener('tilesloaded', ():void => {
-      this.TOGGLE_isLoading()
-    })
+    const loadedHandler = ():void => {
+      if (this.isMapLoading) {
+        this.TOGGLE_isLoading()
+        this.isMapLoading = false
+      }
+    }
+    this.map.addListener('tilesloaded', loadedHandler)
     // Draw the markers
     this.drawMarkers()
     this.map.addListener('click', (): void => {
@@ -249,6 +253,8 @@ export default class Footprint extends Vue {
         bounds.extend(target.marker.getPosition())
       })
       this.map.setCenter(bounds.getCenter())
+      this.map.fitBounds(bounds)
+      this.map.setZoom(this.map.getZoom() - 1)
     }
   }
 
