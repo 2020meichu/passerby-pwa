@@ -10,7 +10,7 @@
         card-news
     v-tab-item
       .d-flex.justify-center
-        card-light(:light='"yellow"')
+        card-light
 </template>
 
 <script lang='ts'>
