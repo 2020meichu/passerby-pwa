@@ -41,7 +41,8 @@ interface FootprintRecord {
   time: Date
 }
 interface FeatureFootprint {
-  currentTab: Number
+  currentTab: Number,
+  isMapLoaded: boolean
 }
 
 interface FootprintMakrerRecord {
@@ -57,6 +58,10 @@ export default class Footprint extends Vue {
   @Getter('feature/getFootprint') public featureFootprint!: FeatureFootprint
   @Getter('user/getFootprints') public userFootprints!: Array<FootprintRecord>
   @Mutation('feature/TOGGLE_isLoading') public TOGGLE_isLoading!: Function
+  @Mutation('feature/SET_footprintIsMapLoaded') public SET_footprintIsMapLoaded!: Function
+
+
+  
   // Variables declaration
   map: any = null
   targetDate: Date = new Date()
@@ -67,10 +72,11 @@ export default class Footprint extends Vue {
     longitude: 0,
     latitude: 0
   }
-  isMapLoading: boolean = true
 
   async mounted () {
-    this.TOGGLE_isLoading()
+    if (this.featureFootprint.currentTab === 0 && !this.featureFootprint.isMapLoaded) {
+      this.TOGGLE_isLoading()
+    }
     // If there is no footprints, then display the user's current position
     // Or display the last footprint's location
     let targetPosition: Coord
@@ -188,9 +194,9 @@ export default class Footprint extends Vue {
       ]
     })
     const loadedHandler = ():void => {
-      if (this.isMapLoading) {
+      if (!this.featureFootprint.isMapLoaded) {
         this.TOGGLE_isLoading()
-        this.isMapLoading = false
+        this.SET_footprintIsMapLoaded(true)
       }
     }
     this.map.addListener('tilesloaded', loadedHandler)

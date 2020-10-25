@@ -1,5 +1,6 @@
 interface Footprint {
-  currentTab: Number
+  currentTab: Number,
+  isMapLoaded: boolean
 }
 
 interface CheckIn {}
@@ -25,7 +26,8 @@ interface FeatureState {
 
 const state: FeatureState = {
   footprint: {
-    currentTab: 0
+    currentTab: 0,
+    isMapLoaded: false
   },
   checkIn: {},
   isLoading: false,
@@ -55,6 +57,9 @@ const getters: any = {
 const mutations: any = {
   SET_footprintCurrentTab(state: FeatureState, value: Number): void {
     state.footprint.currentTab = value
+  },
+  SET_footprintIsMapLoaded(state: FeatureState, value: boolean): void {
+    state.footprint.isMapLoaded = value
   },
   SET_notificationMessage(state: FeatureState, value: string): void {
     state.notification.message = value
