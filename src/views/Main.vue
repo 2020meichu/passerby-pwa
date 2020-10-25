@@ -44,7 +44,7 @@ import { Getter } from 'vuex-class'
   }
 })
 export default class Main extends Vue {
-  @Getter('user/getUserAvatar') public userAvatar!: string
+  @Getter('user/getAvatar') public userAvatar!: string
   bottomNav: number = 0
   currentRouteTransitionName: string = 'v-scroll-x-transition'
 

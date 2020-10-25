@@ -5,7 +5,7 @@ interface FootprintRecord {
   latitude: Number,
   location: string,
   address: string,
-  time: Date
+  time: string
 }
 
 interface DepartureRecord {
@@ -19,7 +19,7 @@ interface ArrivalRecord {
 }
 
 interface InfectedRecord {
-  disease_id: Number,
+  diseaseId: Number,
   date: Date,
   recover: boolean
 }
@@ -51,43 +51,7 @@ const state: UserState = {
     latitude: 24.7944173,
     location: '清大體育館',
     address: '300 新竹市東區光復路二段 101 號',
-    time: new Date()
-  }, {
-    longitude: 120.9885448,
-    latitude: 24.7944173,
-    location: '清大體育館',
-    address: '300 新竹市東區光復路二段 101 號',
-    time: new Date()
-  }, {
-    longitude: 120.9885448,
-    latitude: 24.7944173,
-    location: '清大體育館',
-    address: '300 新竹市東區光復路二段 101 號',
-    time: new Date()
-  }, {
-    longitude: 120.9885448,
-    latitude: 24.7944173,
-    location: '清大體育館',
-    address: '300 新竹市東區光復路二段 101 號',
-    time: new Date()
-  }, {
-    longitude: 120.9885448,
-    latitude: 24.7944173,
-    location: '清大體育館',
-    address: '300 新竹市東區光復路二段 101 號',
-    time: new Date()
-  }, {
-    longitude: 120.9885448,
-    latitude: 24.7944173,
-    location: '清大體育館',
-    address: '300 新竹市東區光復路二段 101 號',
-    time: new Date()
-  }, {
-    longitude: 120.9885448,
-    latitude: 24.7944173,
-    location: '清大體育館',
-    address: '300 新竹市東區光復路二段 101 號',
-    time: new Date()
+    time: new Date().toISOString()
   }],
   departures: [],
   arrivals: [],
@@ -105,8 +69,17 @@ const getters: any = {
   getUsername (state: UserState): string {
     return state.username
   },
-  getUserAvatar (state: UserState): string {
-    return state.avatar
+  getInfected (state: UserState): Array<InfectedRecord> {
+    return state.infected
+  },
+  getDepartures (state: UserState): Array<DepartureRecord> {
+    return state.departures
+  },
+  getArrivals (state: UserState): Array<ArrivalRecord> {
+    return state.arrivals
+  },
+  getQuarantine (state: UserState): Array<QuarantineRecord> {
+    return state.quarantine
   }
 }
 
@@ -157,6 +130,47 @@ const actions: any = {
     localStorage['token'] = data.token
     data.user.avatar = `${process.env.VUE_APP_API_ENDPOINT}/${data.user.avatar}`
     context.commit('SET_user', data.user)
+  },
+  async getCurrentLightInfo(context: any): Promise<any> {
+    const { data } = await axios.get('/configuration')
+    const rules = data.rules
+
+    Object.keys(rules).forEach((type: string):void => {
+      Object.keys(rules[type].diseases).forEach((target: string): any => {
+        const infected: InfectedRecord = context.state.infected.find((iter: any): boolean => iter.diseaseId == target)
+        if (!infected) {
+          delete rules[type].diseases[target]
+          return
+        }
+        const diff = Math.floor((new Date().getTime() - new Date(infected.date).getTime()) / (1000 * 60 * 60 * 24))
+        rules[type].diseases[target] = diff < rules[type].diseases[target]
+      })
+  
+      Object.keys(rules[type].regions).forEach((target: string): any => {
+        const departure: DepartureRecord = context.state.departures.find((iter: any): boolean => iter.to == target)
+        const arrival: ArrivalRecord = context.state.arrivals.find((iter: any): boolean => iter.from == target)
+        if (!departure && !arrival) {
+          delete rules[type].regions[target]
+          return
+        } else if (departure && !arrival) {
+          const diffDeparture = Math.floor((new Date().getTime() - new Date(departure.date).getTime()) / (1000 * 60 * 60 * 24))
+          rules[type].regions[target] = diffDeparture < rules[type].regions[target]
+        } else if (!departure && arrival) {
+          const diffArrival = Math.floor((new Date().getTime() - new Date(arrival.date).getTime()) / (1000 * 60 * 60 * 24))
+          rules[type].regions[target] = diffArrival < rules[type].regions[target]
+        } else {
+          const diffDeparture = Math.floor((new Date().getTime() - new Date(departure.date).getTime()) / (1000 * 60 * 60 * 24))
+          const diffArrival = Math.floor((new Date().getTime() - new Date(arrival.date).getTime()) / (1000 * 60 * 60 * 24))
+          rules[type].regions[target] = diffDeparture < rules[type].regions[target] || diffArrival < rules[type].regions[target]
+        }
+      })
+  
+      const lastQuarantine: QuarantineRecord = context.state.quarantine.sort((a: QuarantineRecord, b: QuarantineRecord): number => new Date(a.end).getTime() - new Date(b.end).getTime())[0]
+      rules[type].quarantine = Math.floor((new Date().getTime() - new Date(lastQuarantine.end).getTime()) / (1000 * 60 * 60 * 24)) < rules[type].quarantine
+    })
+    console.log(rules)
+
+    return rules
   }
 }
 
