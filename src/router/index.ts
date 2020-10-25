@@ -9,7 +9,7 @@ const routes: Array<RouteConfig> = [
     path: '/sign-in',
     name: 'SignIn',
     component: () => import('@/views/SignIn.vue'),
-    beforeEnter: function (to, from, next) {
+    beforeEnter: function(to, from, next) {
       // check if access token exist
       const token = localStorage['token']
       if (token) {
@@ -23,7 +23,7 @@ const routes: Array<RouteConfig> = [
     path: '/sign-up',
     name: 'SignUp',
     component: () => import('@/views/SignUp.vue'),
-    beforeEnter: function (to, from, next) {
+    beforeEnter: function(to, from, next) {
       // check if access token exist
       const token = localStorage['token']
       if (token) {
@@ -45,6 +45,7 @@ const routes: Array<RouteConfig> = [
       }
       try {
         await store.dispatch('user/getUserData')
+        await store.dispatch('configuration/getConfiguration')
         next()
       } catch (error) {
         store.dispatch('feature/openNotification', {
@@ -79,8 +80,6 @@ const routes: Array<RouteConfig> = [
     ]
   }
 ]
-
-
 
 const router = new VueRouter({
   mode: 'history',

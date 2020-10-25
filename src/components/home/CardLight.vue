@@ -8,7 +8,7 @@ v-card.rounded-20.darkmode-superdark(width='241', height='334', elevation='4')
       template(v-slot:activator='{ on, attrs }')
         v-chip.h-20(x-small, :color='mappingLightInfo(light).color', text-color='darkmode-dark', v-on='on', v-bind='attrs') 詳細狀態
       v-card.darkmode-dark
-        v-app-bar(fixed, color='darkmode-dark', height='104', elevation='4').pr-8
+        v-app-bar.pr-8(fixed, color='darkmode-dark', height='104', elevation='4')
           back-btn(@click.native='backHandler')
           v-spacer
           .logo-section.d-flex.justify-end.align-center
@@ -28,13 +28,14 @@ v-card.rounded-20.darkmode-superdark(width='241', height='334', elevation='4')
                     th.text-left 項目
                     th.text-right 分級
                 tbody
-                  tr(v-for='item in items', :key='item.name')
+                  tr(v-for='item in formatRules', :key='item.name')
                     td {{ item.name }}
                     td.text-right(:class='`${mappingLightInfo(item.light).color}--text`') {{ mappingLightInfo(item.light).name_zh }}
 </template>
 <script lang="ts">
 import BackBtn from '@/components/BackBtn.vue'
 import CardLightDetail from '@/components/home/CardLightDetail.vue'
+import { Getter, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
 interface lightInfo {
@@ -44,10 +45,6 @@ interface lightInfo {
   description: string
 }
 
-interface item {
-  name: string
-  light: string
-}
 @Component({
   name: 'CardLight',
   components: {
@@ -56,31 +53,91 @@ interface item {
   }
 })
 export default class CardLight extends Vue {
-  @Prop(String) readonly light!: string
+  @Getter('configuration/getDiseases') public diseases!: any
+  @Getter('configuration/getRegions') public regions!: any
+  @Getter('configuration/getRules') public rules!: any
+  @Action('user/getCurrentLightInfo') public getCurrentLightInfo!: Function
   isShowDetail: boolean = false
-  items: Array<item> = [
-    {
-      name: 'aaad',
-      light: 'red'
-    },
-    {
-      name: 'bb',
-      light: 'red'
-    },
-    {
-      name: 'cc',
-      light: 'yellow'
-    },
-    {
-      name: 'dd',
-      light: 'green'
+  light: string = 'green'
+
+  async created() {
+    const result = await this.getCurrentLightInfo()
+    const redDisease: any = Object.keys(result.red.diseases).map((id) => {
+      const disease = this.diseases.find((d: any) => String(d.id) === id)
+      return {
+        name: `確診 ${disease.name}`,
+        light: 'red'
+      }
+    })
+    const redRegion: any = Object.keys(result.red.regions).map((id, index) => {
+      const region = this.regions.find((d: any) => String(d.id) === id)
+      return {
+        name: `${this.rules.red.regions[id]}天內從${region.name}出入境`,
+        light: 'red'
+      }
+    })
+    const red = [...redDisease, ...redRegion]
+
+    if (red.length > 0) {
+      return (this.light = 'red')
     }
-  ]
+
+    const yellowDisease: any = Object.keys(result.yellow.diseases).map((id) => {
+      const disease = this.diseases.find((d: any) => String(d.id) === id)
+      return {
+        name: `確診 ${disease.name}`,
+        light: 'yellow'
+      }
+    })
+    const yellowRegion: any = Object.keys(result.yellow.regions).map((id) => {
+      const region = this.regions.find((d: any) => String(d.id) === id)
+      return {
+        name: `${this.rules.yellow.regions[id]}天內從${region.name}出入境`,
+        light: 'yellow'
+      }
+    })
+    const yellow = [...yellowDisease, ...yellowRegion]
+
+    if (yellow.length > 0) {
+      return (this.light = 'red')
+    }
+  }
+
+  get formatRules(): any {
+    const redDisease: any = Object.keys(this.rules.red.diseases).map((id) => {
+      const disease = this.diseases.find((d: any) => String(d.id) === id)
+      return {
+        name: `確診 ${disease.name}`,
+        light: 'red'
+      }
+    })
+    const redRegion: any = Object.keys(this.rules.red.regions).map((id, index) => {
+      const region = this.regions.find((d: any) => String(d.id) === id)
+      return {
+        name: `${this.rules.red.regions[id]}天內從${region.name}出入境`,
+        light: 'red'
+      }
+    })
+    const yellowDisease: any = Object.keys(this.rules.yellow.diseases).map((id) => {
+      const disease = this.diseases.find((d: any) => String(d.id) === id)
+      return {
+        name: `確診 ${disease.name}`,
+        light: 'yellow'
+      }
+    })
+    const yellowRegion: any = Object.keys(this.rules.yellow.regions).map((id) => {
+      const region = this.regions.find((d: any) => String(d.id) === id)
+      return {
+        name: `${this.rules.yellow.regions[id]}天內從${region.name}出入境`,
+        light: 'yellow'
+      }
+    })
+    return [...redDisease, ...redRegion, ...yellowDisease, ...yellowRegion]
+  }
 
   backHandler(): void {
     this.isShowDetail = !this.isShowDetail
   }
-
   mappingLightInfo(light: string): lightInfo {
     if (light === 'red') {
       return {
