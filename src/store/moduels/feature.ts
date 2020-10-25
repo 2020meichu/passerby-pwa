@@ -5,21 +5,22 @@ interface Footprint {
 interface CheckIn {}
 
 interface Notification {
-  isDisplay: boolean,
-  message: string,
+  isDisplay: boolean
+  message: string
   color: string
 }
 
 interface NotificationOptions {
-  message: string,
+  message: string
   color: string
 }
 
 interface FeatureState {
-  footprint: Footprint,
-  checkIn: CheckIn,
-  notification: Notification,
-  isLoading: boolean,
+  footprint: Footprint
+  checkIn: CheckIn
+  notification: Notification
+  isLoading: boolean
+  hasCheckIned: boolean
 }
 
 const state: FeatureState = {
@@ -32,7 +33,8 @@ const state: FeatureState = {
     isDisplay: false,
     message: '',
     color: ''
-  }
+  },
+  hasCheckIned: false
 }
 
 const getters: any = {
@@ -44,6 +46,9 @@ const getters: any = {
   },
   getNotification(state: FeatureState): Notification {
     return state.notification
+  },
+  getHasCheckIned(state: FeatureState): boolean {
+    return state.hasCheckIned
   }
 }
 
@@ -62,11 +67,14 @@ const mutations: any = {
   },
   SET_notificationIsDisplay(state: FeatureState, value: boolean): void {
     state.notification.isDisplay = value
+  },
+  SET_hasCheckIned(state: FeatureState, value: boolean): void {
+    state.hasCheckIned = value
   }
 }
 
 const actions: any = {
-  openNotification (context: any, options: NotificationOptions): void {
+  openNotification(context: any, options: NotificationOptions): void {
     context.commit('SET_notificationIsDisplay', true)
     context.commit('SET_notificationColor', options.color)
     context.commit('SET_notificationMessage', options.message)

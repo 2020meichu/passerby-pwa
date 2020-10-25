@@ -1,9 +1,11 @@
 <template lang="pug">
 .root.mx-12
   #map
-  .d-flex.flex-column.mt-3
+  .d-flex.flex-column.mt-3(v-if='!hasCheckIned')
     place-item.mb-3(v-for='place in placeInfos', :key='place.name', :isLastOne='false', :name='place.name', :address='place.address', :distance='place.distance', @click.native='checkInAction(place)')
     place-item.mb-3(:isLastOne='true', :name='"自行輸入地點"', :address='"無"', :distance='0', @click.native='openCheckInForm')
+  .d-flex.justify-center.align-center.mt-5(v-else)
+    card-result
   v-dialog(v-model='isCheckImFormOpen')
     v-card.rounded-20
       v-card-title 請輸入地點名稱
@@ -18,8 +20,9 @@
 
 <script lang="ts">
 import PlaceItem from '@/components/checkIn/PlaceItem.vue'
+import CardResult from '@/components/checkIn/CardResult.vue'
 import { Component, Vue } from 'vue-property-decorator'
-import { Mutation, Action } from 'vuex-class'
+import { Getter, Mutation, Action } from 'vuex-class'
 import { getDistance } from 'geolib'
 
 interface Request {
@@ -46,10 +49,13 @@ interface Position {
 @Component({
   name: 'CheckIn',
   components: {
-    PlaceItem
+    PlaceItem,
+    CardResult
   }
 })
 export default class CheckIn extends Vue {
+  @Getter('feature/getHasCheckIned') public hasCheckIned!: any
+  @Mutation('feature/SET_hasCheckIned') public SET_hasCheckIned!: Function
   @Mutation('feature/TOGGLE_isLoading') public TOOGLE_isLoading!: Function
   @Action('user/checkIn') public checkIn!: Function
 
@@ -62,12 +68,13 @@ export default class CheckIn extends Vue {
     latitude: 0,
     longitude: 0
   }
-  hasCheckIned: boolean = false
 
   $refs!: {
     form: HTMLFormElement
   }
-
+  created() {
+    this.SET_hasCheckIned(false)
+  }
   async mounted() {
     this.TOOGLE_isLoading()
     await this.initMapService()
@@ -158,6 +165,7 @@ export default class CheckIn extends Vue {
       name: this.typeName,
       address: ''
     })
+    this.SET_hasCheckIned(true)
     this.TOOGLE_isLoading()
   }
   async checkInAction(place: PlaceInfo): Promise<any> {
@@ -169,6 +177,7 @@ export default class CheckIn extends Vue {
         location: place.name,
         address: place.address
       })
+      this.SET_hasCheckIned(true)
     } catch (error) {
       console.error(error)
     } finally {

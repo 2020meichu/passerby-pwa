@@ -1,6 +1,6 @@
 <template lang="pug">
 .root
-  v-app-bar.flex-row(app, height='165', color='darkmode-dark', :elevation="elevationChange")
+  v-app-bar.flex-row(app, height='165', color='darkmode-dark', :elevation='elevationChange')
     v-col.px-10
       v-row.justify-space-between.mb-6
         avatar(:imgPath='userAvatar')
@@ -8,9 +8,9 @@
           .logo-section__logo.mr-2
           p.logo-section__font.darkmode-dark--white.mb-0 Passerby
       v-row
-        component(:is="displayFunctionBar")
+        component(:is='displayFunctionBar')
   //- component(:is="currentRouteTransitionName")
-  v-slide-x-transition(:hide-on-leave="true")
+  v-slide-x-transition(:hide-on-leave='true')
     router-view
   v-bottom-navigation(v-model='bottomNav', app, grow, color='primary', background-color='darkmode-dark', height='86', @change='changeRoute')
     v-btn
@@ -65,6 +65,21 @@ export default class Main extends Vue {
         break
     }
     this.$router.push({ name: route })
+  }
+  @Watch('$route.name')
+  onRouteChanged(value: string, oldValue: string) {
+    if (value === oldValue) {
+      return
+    }
+    if (value === 'Home') {
+      this.bottomNav = 0
+    } else if (value === 'CheckIn') {
+      this.bottomNav = 1
+    } else if (value === 'Footprint') {
+      this.bottomNav = 2
+    } else {
+      this.bottomNav = 3
+    }
   }
 
   get displayFunctionBar(): string {
