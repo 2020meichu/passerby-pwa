@@ -1,17 +1,19 @@
 <template lang="pug">
-v-card.rounded-20(width='241', height='334', elevation='4')
+v-card.rounded-20.darkmode-superdark(width='241', height='334', elevation='4')
   v-img.rounded-b-0(:src='mappingLightInfo(light).imgUrl', height='188')
-  v-card-title.text-h5.lh-24(:class='`${mappingLightInfo(light).color}--text`') {{ mappingLightInfo(light).name_zh + "等級" }}
-  v-card-text.fs-12.lh-16.text-dot-2.text-justify {{ mappingLightInfo(light).description }}
+  v-card-title.text-h5.lh-24.px-6(:class='`${mappingLightInfo(light).color}--text`') {{ mappingLightInfo(light).name_zh + "等級" }}
+  v-card-text.fs-12.lh-16.text-dot-2.text-justify.px-6 {{ mappingLightInfo(light).description }}
   v-card-actions.justify-center
     v-dialog(v-model='isShowDetail', fullscreen, hide-overlay, transition='dialog-bottom-transition')
       template(v-slot:activator='{ on, attrs }')
         v-chip.h-20(x-small, :color='mappingLightInfo(light).color', text-color='darkmode-dark', v-on='on', v-bind='attrs') 詳細狀態
       v-card.darkmode-dark
-        v-app-bar(fixed, color='darkmode-dark', height='104', elevation='4')
+        v-app-bar(fixed, color='darkmode-dark', height='104', elevation='4').pr-8
           back-btn(@click.native='backHandler')
           v-spacer
-          v-icon mdi-cog
+          .logo-section.d-flex.justify-end.align-center
+            .logo-section__logo.mr-2
+            p.logo-section__font.darkmode-dark--white.mb-0 Passerby
         .mt-21.mx-8
           v-card-title.text-h5.darkmode-white--text 個人詳細狀態
           v-card-text
@@ -110,5 +112,20 @@ export default class CardLight extends Vue {
 .h-20::v-deep,
 .h-20::v-deep > span {
   height: 20px !important;
+}
+.logo-section {
+  z-index: 25;
+  &__logo {
+    width: 14px;
+    height: 20px;
+    background-image: url('~@/assets/img/passerby-logo-white.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &__font {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Cabin', sans-serif;
+  }
 }
 </style>
