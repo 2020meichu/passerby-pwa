@@ -15,7 +15,9 @@
     "types": [
       "node",
       "webpack-env",
-      "vuetify"
+      "vuetify",
+      "webpack",
+      "webpack-env"
     ],
     "typeRoots": [
       "typings",
@@ -27,7 +29,6 @@
       ]
     },
     "lib": [
-      // "es6",
       "dom",
       "dom.iterable",
       "scripthost"
