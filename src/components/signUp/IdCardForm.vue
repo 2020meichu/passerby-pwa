@@ -37,34 +37,35 @@ import axios from '@/plugins/axios'
 })
 export default class extends Vue {
   @Prop(Object) readonly userData!: any
-  
+
   @Action('feature/openNotification') public openNotification!: Function
   @Action('user/register') public register!: Function
-  isTakePhoto: boolean = false
-  isUploading: boolean = false
-  isDisplaySnackbar: boolean = false
+  isTakePhoto = false
+  isUploading = false
+  isDisplaySnackbar = false
   photo: any = null
 
-  async setPhoto (photo:any): Promise<void> {
+  async setPhoto (photo: any): Promise<void> {
     this.photo = photo
-
   }
+
   toggleTakePhoto () {
     this.isTakePhoto = !this.isTakePhoto
   }
+
   async uploadHandler () {
     this.isUploading = true
     try {
-      const clipped:string = await FaceRecognition.getFaceImageDataURL(this.photo, 200)
+      const clipped: string = await FaceRecognition.getFaceImageDataURL(this.photo, 200)
       // The function to transfer from dataURL to Blob
       const dataURLtoBlob = (dataurl: string): Blob => {
-        const arr = dataurl.split(','), mime = (arr[0].match(/:(.*?);/) as Array<string>)[1],
-          binaryStr = atob(arr[1])
-        let n = binaryStr.length, uint8arr = new Uint8Array(n)
-        while(n--){
+        const arr = dataurl.split(','); const mime = (arr[0].match(/:(.*?);/) as Array<string>)[1]
+        const binaryStr = atob(arr[1])
+        let n = binaryStr.length; const uint8arr = new Uint8Array(n)
+        while (n--) {
           uint8arr[n] = binaryStr.charCodeAt(n)
         }
-        return new Blob([uint8arr], { type:mime })
+        return new Blob([uint8arr], { type: mime })
       }
       await this.register({
         ...this.userData,

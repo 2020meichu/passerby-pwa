@@ -43,12 +43,13 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   }
 })
 export default class CardNews extends Vue {
-  article: string =
+  article =
     '台大公衛學院教授陳秀熙今天表示，近日全球新冠肺炎確診者已突破4000萬人，國際疫情可能持續一段時間才會下降，預估要等到明年2月，疫情才會受到較好控制。\n\n台灣大學公共衛生學院教授陳秀熙今天透過線上直播，說明全球COVID-19（2019冠狀病毒疾病，新冠肺炎）疫情狀況，全球確診人...'
-  isShowDetail: boolean = false
-  img: string = 'https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2020/10/21/98/8798273.jpg&x=0&y=0&sw=0&sh=0&sl=W&fw=800&exp=3600&w=930&nt=1'
 
-  backHandler(): void {
+  isShowDetail = false
+  img = 'https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2020/10/21/98/8798273.jpg&x=0&y=0&sw=0&sh=0&sl=W&fw=800&exp=3600&w=930&nt=1'
+
+  backHandler (): void {
     this.isShowDetail = false
     this.$emit('backHandler')
   }

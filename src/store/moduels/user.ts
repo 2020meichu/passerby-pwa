@@ -1,43 +1,43 @@
 import axios from '@/plugins/axios'
 
 interface FootprintRecord {
-  longitude: Number
-  latitude: Number
-  location: string
-  address: string
-  time: string
+  longitude: number;
+  latitude: number;
+  location: string;
+  address: string;
+  time: string;
 }
 
 interface DepartureRecord {
-  date: Date
-  to: string
+  date: Date;
+  to: string;
 }
 
 interface ArrivalRecord {
-  date: Date
-  from: string
+  date: Date;
+  from: string;
 }
 
 interface InfectedRecord {
-  diseaseId: Number
-  date: Date
-  recover: boolean
+  diseaseId: number;
+  date: Date;
+  recover: boolean;
 }
 
 interface QuarantineRecord {
-  start: Date
-  end: Date
+  start: Date;
+  end: Date;
 }
 
 interface UserState {
-  avatar: string
-  id: string
-  username: string
-  footprints: Array<FootprintRecord>
-  departures: Array<DepartureRecord>
-  arrivals: Array<ArrivalRecord>
-  infected: Array<InfectedRecord>
-  quarantine: Array<QuarantineRecord>
+  avatar: string;
+  id: string;
+  username: string;
+  footprints: Array<FootprintRecord>;
+  departures: Array<DepartureRecord>;
+  arrivals: Array<ArrivalRecord>;
+  infected: Array<InfectedRecord>;
+  quarantine: Array<QuarantineRecord>;
 }
 
 const state: UserState = {
@@ -60,31 +60,31 @@ const state: UserState = {
 }
 
 const getters: any = {
-  getAvatar(state: UserState): string {
+  getAvatar (state: UserState): string {
     return state.avatar
   },
-  getFootprints(state: UserState): Array<FootprintRecord> {
+  getFootprints (state: UserState): Array<FootprintRecord> {
     return state.footprints
   },
-  getUsername(state: UserState): string {
+  getUsername (state: UserState): string {
     return state.username
   },
-  getInfected(state: UserState): Array<InfectedRecord> {
+  getInfected (state: UserState): Array<InfectedRecord> {
     return state.infected
   },
-  getDepartures(state: UserState): Array<DepartureRecord> {
+  getDepartures (state: UserState): Array<DepartureRecord> {
     return state.departures
   },
-  getArrivals(state: UserState): Array<ArrivalRecord> {
+  getArrivals (state: UserState): Array<ArrivalRecord> {
     return state.arrivals
   },
-  getQuarantine(state: UserState): Array<QuarantineRecord> {
+  getQuarantine (state: UserState): Array<QuarantineRecord> {
     return state.quarantine
   }
 }
 
 const mutations: any = {
-  SET_user(state: UserState, value: any): void {
+  SET_user (state: UserState, value: any): void {
     state.id = value.id
     state.username = value.username
     state.footprints = value.footprints
@@ -94,14 +94,14 @@ const mutations: any = {
     state.infected = value.infected
     state.avatar = value.avatar
   },
-  SET_footprints(state: UserState, value: any): void {
+  SET_footprints (state: UserState, value: any): void {
     state.footprints = value
   }
 }
 
 const actions: any = {
-  async getUserData(context: any): Promise<void> {
-    const token = localStorage['token']
+  async getUserData (context: any): Promise<void> {
+    const token = localStorage.token
     if (!token) {
       return
     }
@@ -114,7 +114,7 @@ const actions: any = {
     data.user.avatar = `${process.env.VUE_APP_API_ENDPOINT}${data.user.avatar}`
     context.commit('SET_user', data.user)
   },
-  async register(context: any, options: any): Promise<void> {
+  async register (context: any, options: any): Promise<void> {
     const formData: FormData = new FormData()
     Object.keys(options).forEach((key: string): void => {
       formData.append(key, options[key])
@@ -125,18 +125,18 @@ const actions: any = {
       }
     })
     // Save the token to local storage
-    localStorage['token'] = data.token
+    localStorage.token = data.token
     data.user.avatar = `${process.env.VUE_APP_API_ENDPOINT}/${data.user.avatar}`
     context.commit('SET_user', data.user)
   },
-  async login(context: any, options: any): Promise<void> {
+  async login (context: any, options: any): Promise<void> {
     const { data } = await axios.post('/login', options)
     // Save the token to local storage
-    localStorage['token'] = data.token
+    localStorage.token = data.token
     data.user.avatar = `${process.env.VUE_APP_API_ENDPOINT}/${data.user.avatar}`
     context.commit('SET_user', data.user)
   },
-  async getCurrentLightInfo(context: any): Promise<any> {
+  async getCurrentLightInfo (context: any): Promise<any> {
     const rules = JSON.parse(JSON.stringify(context.rootGetters['configuration/getRules']))
 
     Object.keys(rules).forEach((type: string): void => {
@@ -155,7 +155,6 @@ const actions: any = {
         const arrival: ArrivalRecord = context.state.arrivals.find((iter: any): boolean => iter.from == target)
         if (!departure && !arrival) {
           delete rules[type].regions[target]
-          return
         } else if (departure && !arrival) {
           const diffDeparture = Math.floor((new Date().getTime() - new Date(departure.date).getTime()) / (1000 * 60 * 60 * 24))
           rules[type].regions[target] = diffDeparture < rules[type].regions[target]
@@ -178,9 +177,9 @@ const actions: any = {
     })
     return rules
   },
-  async checkIn(context: any, options: any): Promise<void> {
+  async checkIn (context: any, options: any): Promise<void> {
     try {
-      const token = localStorage['token']
+      const token = localStorage.token
       const { data } = await axios('/user/footprints', {
         headers: {
           Authorization: `Bearer ${token}`

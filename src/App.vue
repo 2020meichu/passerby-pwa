@@ -25,8 +25,8 @@ import { mapActions, mapGetters } from 'vuex'
 import Loading from '@/components/Loading.vue'
 
 interface PermissionStatus {
-  onchange: any
-  state: string
+  onchange: any;
+  state: string;
 }
 
 export default Vue.extend({
@@ -34,7 +34,7 @@ export default Vue.extend({
   components: {
     Loading
   },
-  data() {
+  data () {
     return {
       isDisplayDialog: false
     }
@@ -44,7 +44,7 @@ export default Vue.extend({
       notification: 'feature/getNotification'
     })
   },
-  mounted() {
+  mounted () {
     ;(window as any).navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus: PermissionStatus) => {
       permissionStatus.onchange = function () {
         console.log('geolocation permission status has changed to ', this.state)
@@ -57,7 +57,7 @@ export default Vue.extend({
     ...mapActions({
       closeNotification: 'feature/closeNotification'
     }),
-    closeApp() {
+    closeApp () {
       ;(window as any).close()
     }
   }

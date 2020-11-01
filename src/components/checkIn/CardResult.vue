@@ -13,10 +13,10 @@ import { Getter, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
 interface lightInfo {
-  name_zh: string
-  color: string
-  imgUrl: string
-  description: string
+  name_zh: string;
+  color: string;
+  imgUrl: string;
+  description: string;
 }
 
 @Component({
@@ -30,10 +30,10 @@ export default class CardLight extends Vue {
   @Getter('configuration/getRegions') public regions!: any
   @Getter('configuration/getRules') public rules!: any
   @Action('user/getCurrentLightInfo') public getCurrentLightInfo!: Function
-  isShowDetail: boolean = false
-  light: string = 'green'
+  isShowDetail = false
+  light = 'green'
 
-  async created() {
+  async created () {
     const result = await this.getCurrentLightInfo()
     const redDisease: any = Object.keys(result.red.diseases).map((id) => {
       const disease = this.diseases.find((d: any) => String(d.id) === id)
@@ -76,10 +76,11 @@ export default class CardLight extends Vue {
     }
   }
 
-  confirm(): void {
+  confirm (): void {
     this.$router.replace('/')
   }
-  mappingLightInfo(light: string): lightInfo {
+
+  mappingLightInfo (light: string): lightInfo {
     if (light === 'red') {
       return {
         name_zh: '紅燈',

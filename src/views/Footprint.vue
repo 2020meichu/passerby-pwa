@@ -30,24 +30,24 @@ import Popup from '@/plugins/popup'
 
 // The interface of coord
 interface Coord {
-  longitude: Number,
-  latitude: Number
+  longitude: number;
+  latitude: number;
 }
 interface FootprintRecord {
-  longitude: Number,
-  latitude: Number,
-  location: string,
-  address: string,
-  time: Date
+  longitude: number;
+  latitude: number;
+  location: string;
+  address: string;
+  time: Date;
 }
 interface FeatureFootprint {
-  currentTab: Number,
-  isMapLoaded: boolean
+  currentTab: number;
+  isMapLoaded: boolean;
 }
 
 interface FootprintMakrerRecord {
-  popup: Popup,
-  marker: any
+  popup: Popup;
+  marker: any;
 }
 
 @Component({
@@ -60,13 +60,11 @@ export default class Footprint extends Vue {
   @Mutation('feature/TOGGLE_isLoading') public TOGGLE_isLoading!: Function
   @Mutation('feature/SET_footprintIsMapLoaded') public SET_footprintIsMapLoaded!: Function
 
-
-  
   // Variables declaration
   map: any = null
   targetDate: Date = new Date()
-  pickDate: string =  ''
-  isDisplayDatePicker: boolean = false
+  pickDate = ''
+  isDisplayDatePicker = false
   currentMarkers: Array<FootprintMakrerRecord> = []
   currentPosition: Coord = {
     longitude: 0,
@@ -193,7 +191,7 @@ export default class Footprint extends Vue {
         }
       ]
     })
-    const loadedHandler = ():void => {
+    const loadedHandler = (): void => {
       if (!this.featureFootprint.isMapLoaded) {
         this.TOGGLE_isLoading()
         this.SET_footprintIsMapLoaded(true)
@@ -208,8 +206,9 @@ export default class Footprint extends Vue {
       })
     })
   }
+
   drawMarkers () {
-    const filteredRecords = this.userFootprints.filter((target : FootprintRecord): boolean => {
+    const filteredRecords = this.userFootprints.filter((target: FootprintRecord): boolean => {
       const targetTime = new Date(target.time)
       return targetTime.getFullYear() === this.targetDate.getFullYear() &&
         targetTime.getMonth() === this.targetDate.getMonth() &&
@@ -264,18 +263,18 @@ export default class Footprint extends Vue {
     }
   }
 
-  filterDateAndTime(value: Date): string {
+  filterDateAndTime (value: Date): string {
     const time = new Date(value).toISOString().split('T')[1].split('.')[0].split(':').slice(0, 2).join(':')
     const date = new Date(value).toISOString().split('T')[0]
     return `${date} ${time}`
   }
 
-  filterDate(value: Date): string {
+  filterDate (value: Date): string {
     return new Date(value).toISOString().split('T')[0]
   }
 
   get userFootprintsSorted (): any {
-    let weekdays: Array<string> = new Array(7)
+    const weekdays: Array<string> = new Array(7)
     weekdays[0] = 'Sun.'
     weekdays[1] = 'Mon.'
     weekdays[2] = 'Tue.'
@@ -283,11 +282,11 @@ export default class Footprint extends Vue {
     weekdays[4] = 'Thu.'
     weekdays[5] = 'Fri.'
     weekdays[6] = 'Sat.'
-  
+
     const result: any = {}
     this.userFootprints.forEach((target: FootprintRecord): void => {
       const targetTime = new Date(target.time)
-      const key: string = `${targetTime.toISOString().split('T')[0].replace('-', '.')} ${weekdays[targetTime.getDay()]}`
+      const key = `${targetTime.toISOString().split('T')[0].replace('-', '.')} ${weekdays[targetTime.getDay()]}`
       if (!result[key]) { result[key] = [] }
       result[key].push(target)
     })
@@ -295,7 +294,7 @@ export default class Footprint extends Vue {
   }
 
   @Watch('pickDate')
-  onPropertyChanged(value: string, oldValue: string) {
+  onPropertyChanged (value: string, oldValue: string) {
     if (value === oldValue) {
       return
     }

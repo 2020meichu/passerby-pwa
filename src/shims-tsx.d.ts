@@ -13,7 +13,7 @@ declare global {
 }
 declare module 'googlemaps'
 
-declare module canvas {
+declare namespace canvas {
   export type Canvas = any;
   export type Context2d = any;
   export type CanvasRenderingContext2D = any;
@@ -36,11 +36,11 @@ declare module canvas {
   export function toBuffer(...args: any[]): any;
   export function toDataURL(...args: any[]): any;
 
-  export const backends: any;
+  export const backends: any
 
-  export const version: any;
-  export const cairoVersion: any;
-  export const jpegVersion: any;
-  export const gifVersion: any;
-  export const freetypeVersion: any;
+  export const version: any
+  export const cairoVersion: any
+  export const jpegVersion: any
+  export const gifVersion: any
+  export const freetypeVersion: any
 }

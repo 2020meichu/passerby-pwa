@@ -26,24 +26,24 @@ import { Getter, Mutation, Action } from 'vuex-class'
 import { getDistance } from 'geolib'
 
 interface Request {
-  location?: any
-  radius?: string
-  type?: Array<string>
-  placeId?: string
-  fields?: Array<string>
-  rankBy?: any
-  keyword?: string
+  location?: any;
+  radius?: string;
+  type?: Array<string>;
+  placeId?: string;
+  fields?: Array<string>;
+  rankBy?: any;
+  keyword?: string;
 }
 
 interface PlaceInfo {
-  name: string
-  address: string
-  distance?: number
+  name: string;
+  address: string;
+  distance?: number;
 }
 
 interface Position {
-  latitude: number
-  longitude: number
+  latitude: number;
+  longitude: number;
 }
 
 @Component({
@@ -59,9 +59,9 @@ export default class CheckIn extends Vue {
   @Mutation('feature/TOGGLE_isLoading') public TOOGLE_isLoading!: Function
   @Action('user/checkIn') public checkIn!: Function
 
-  valid: boolean = true
-  isCheckImFormOpen: boolean = false
-  typeName: string = ''
+  valid = true
+  isCheckImFormOpen = false
+  typeName = ''
   nameRule: any = [(v: boolean | string) => !!v || '此格為必填']
   placeInfos: Array<PlaceInfo> = []
   currentPosition: Position = {
@@ -70,23 +70,25 @@ export default class CheckIn extends Vue {
   }
 
   $refs!: {
-    form: HTMLFormElement
+    form: HTMLFormElement;
   }
-  created() {
+
+  created () {
     this.SET_hasCheckIned(false)
   }
-  async mounted() {
+
+  async mounted () {
     this.TOOGLE_isLoading()
     await this.initMapService()
     this.TOOGLE_isLoading()
   }
 
-  async initMapService(): Promise<void> {
+  async initMapService (): Promise<void> {
     if (!(window as any).navigator.hasOwnProperty('geolocation')) {
       console.log('no geolocation')
     }
 
-    async function nearbyPromise(service: any, request: Request): Promise<any> {
+    async function nearbyPromise (service: any, request: Request): Promise<any> {
       return new Promise((resolve, reject) => {
         service.nearbySearch(request, (results: any, status: any) => {
           if (status === (window as any).google.maps.GeocoderStatus.OK) {
@@ -98,7 +100,7 @@ export default class CheckIn extends Vue {
       })
     }
 
-    async function getDetailsPromise(service: any, request: Request): Promise<any> {
+    async function getDetailsPromise (service: any, request: Request): Promise<any> {
       return new Promise((resolve, reject) => {
         service.getDetails(request, (place: any, status: any) => {
           if (status === (window as any).google.maps.places.PlacesServiceStatus.OK) {
@@ -110,7 +112,7 @@ export default class CheckIn extends Vue {
       })
     }
 
-    async function sleep(time: number): Promise<any> {
+    async function sleep (time: number): Promise<any> {
       return new Promise((resolve) => setTimeout(resolve, time))
     }
 
@@ -146,15 +148,17 @@ export default class CheckIn extends Vue {
     }
   }
 
-  get shortPosition(): string {
+  get shortPosition (): string {
     const longitude: number = Math.floor(this.currentPosition.longitude * 100) / 100
     const latitude: number = Math.floor(this.currentPosition.latitude * 100) / 100
     return `(${latitude}, ${longitude})`
   }
-  openCheckInForm(): void {
+
+  openCheckInForm (): void {
     this.isCheckImFormOpen = true
   }
-  async conform2CheckIn() {
+
+  async conform2CheckIn () {
     const check: boolean = this.$refs.form.validate()
     if (!check) {
       return
@@ -168,7 +172,8 @@ export default class CheckIn extends Vue {
     this.SET_hasCheckIned(true)
     this.TOOGLE_isLoading()
   }
-  async checkInAction(place: PlaceInfo): Promise<any> {
+
+  async checkInAction (place: PlaceInfo): Promise<any> {
     try {
       this.TOOGLE_isLoading()
       await this.checkIn({

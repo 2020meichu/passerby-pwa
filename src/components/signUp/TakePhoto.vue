@@ -26,10 +26,10 @@ import { component } from 'vue/types/umd'
 import BackBtn from '@/components/BackBtn.vue'
 
 interface info {
-  deviceId: string
-  groupId: string
-  kind: string
-  label: string
+  deviceId: string;
+  groupId: string;
+  kind: string;
+  label: string;
 }
 
 @Component({
@@ -39,26 +39,27 @@ interface info {
   }
 })
 export default class extends Vue {
-  facingMode: string = 'environment'
+  facingMode = 'environment'
   mediaStream: any = null
   // photo: any = null
   videoDevices: Array<info> = []
-  switchingCamera: boolean = false
+  switchingCamera = false
 
   async startRecording (facingMode: string) {
     this.facingMode = facingMode
-    const video:any = this.$refs.video
+    const video: any = this.$refs.video
     this.mediaStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: facingMode}
+      video: { facingMode: facingMode }
     })
     video.srcObject = this.mediaStream
     return await video.play()
   }
-  async takePhoto () { 
-    const video:any = this.$refs.video
-    const canva:any = this.$refs.canva
-    const width:number = video.videoWidth
-    const height:number = video.videoHeight
+
+  async takePhoto () {
+    const video: any = this.$refs.video
+    const canva: any = this.$refs.canva
+    const width: number = video.videoWidth
+    const height: number = video.videoHeight
     canva.width = width
     canva.height = height
     const ctx = canva.getContext('2d')
@@ -76,12 +77,14 @@ export default class extends Vue {
     this.$emit('setPhoto', canva.toDataURL('image/png'))
     this.back()
   }
+
   back () {
     this.$emit('toggleMode')
   }
+
   async mounted () {
-    const devices:any = await navigator.mediaDevices.enumerateDevices()
-    this.videoDevices = devices.filter((d:info) => d.kind === 'videoinput')
+    const devices: any = await navigator.mediaDevices.enumerateDevices()
+    this.videoDevices = devices.filter((d: info) => d.kind === 'videoinput')
     await this.startRecording(
       this.videoDevices.length === 1 ? 'user' : 'environment'
     )

@@ -8,11 +8,11 @@ import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 
 interface Footprint {
-  currentTab: Number
+  currentTab: number;
 }
 
 @Component({
-  name: 'FunctionBarFootprint',
+  name: 'FunctionBarFootprint'
 })
 
 export default class FunctionBarFootprint extends Vue {

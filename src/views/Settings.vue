@@ -54,11 +54,11 @@ import ListItem from '@/components/ListItem.vue'
 import { Mutation, Getter } from 'vuex-class'
 
 interface settingItem {
-  type: string
-  icon: string
-  title: string
-  subTitle: string | null
-  emitFunction: string | null
+  type: string;
+  icon: string;
+  title: string;
+  subTitle: string | null;
+  emitFunction: string | null;
 }
 
 @Component({
@@ -68,8 +68,8 @@ interface settingItem {
 })
 export default class Settings extends Vue {
   @Getter('user/getUsername') public username!: string
-  sheet: boolean = false
-  dialog: boolean = false
+  sheet = false
+  dialog = false
   settingItems: Array<settingItem> = [
     {
       type: 'user',
@@ -107,26 +107,31 @@ export default class Settings extends Vue {
       emitFunction: null
     }
   ]
+
   mounted () {
     this.settingItems[0].subTitle = `目前名稱: ${this.username}`
   }
 
-  get userSettingItems(): Array<settingItem> {
+  get userSettingItems (): Array<settingItem> {
     return this.settingItems.filter(item => {
       return item.type === 'user'
     })
   }
-  get appSettingItems(): Array<settingItem> {
+
+  get appSettingItems (): Array<settingItem> {
     return this.settingItems.filter(item => {
       return item.type === 'app'
     })
   }
+
   toggleSheet () {
     this.sheet = !this.sheet
   }
+
   emitLogoutDialog () {
     this.dialog = true
   }
+
   logout () {
     this.dialog = false
     localStorage.removeItem('token')

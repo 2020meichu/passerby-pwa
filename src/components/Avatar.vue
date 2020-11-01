@@ -14,7 +14,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class Avatar extends Vue {
   @Prop(String) readonly imgPath!: string
   $refs!: {
-    avatar: HTMLImageElement
+    avatar: HTMLImageElement;
   }
 
   async mounted (): Promise<void> {

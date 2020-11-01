@@ -9,9 +9,9 @@ const routes: Array<RouteConfig> = [
     path: '/sign-in',
     name: 'SignIn',
     component: () => import('@/views/SignIn.vue'),
-    beforeEnter: function(to, from, next) {
+    beforeEnter: function (to, from, next) {
       // check if access token exist
-      const token = localStorage['token']
+      const token = localStorage.token
       if (token) {
         next({ path: '/', replace: true })
         return
@@ -23,9 +23,9 @@ const routes: Array<RouteConfig> = [
     path: '/sign-up',
     name: 'SignUp',
     component: () => import('@/views/SignUp.vue'),
-    beforeEnter: function(to, from, next) {
+    beforeEnter: function (to, from, next) {
       // check if access token exist
-      const token = localStorage['token']
+      const token = localStorage.token
       if (token) {
         next({ path: '/', replace: true })
         return
@@ -38,7 +38,7 @@ const routes: Array<RouteConfig> = [
     name: 'Main',
     component: () => import('@/views/Main.vue'),
     beforeEnter: async (to, from, next) => {
-      const token = localStorage['token']
+      const token = localStorage.token
       if (!token) {
         next({ path: '/sign-in' })
         return

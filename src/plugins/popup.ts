@@ -1,13 +1,13 @@
 interface Position {
-  Lat: Number,
-  Lng: Number
+  Lat: number;
+  Lng: number;
 }
 
 class Popup extends (window as any).google.maps.OverlayView {
   position: any
   containerDiv: HTMLDivElement
 
-  constructor(position: any, content: HTMLElement) {
+  constructor (position: any, content: HTMLElement) {
     super()
     this.position = position
 
@@ -28,24 +28,24 @@ class Popup extends (window as any).google.maps.OverlayView {
   }
 
   /** Called when the popup is added to the map. */
-  onAdd() {
+  onAdd () {
     this.getPanes().floatPane.appendChild(this.containerDiv)
     this.hide()
   }
 
-  hide() {
+  hide () {
     if (this.containerDiv) {
       this.containerDiv.classList.add('popup-hidden')
     }
   }
-  
-  show() {
+
+  show () {
     if (this.containerDiv) {
       this.containerDiv.classList.remove('popup-hidden')
     }
   }
-  
-  toggle() {
+
+  toggle () {
     if (this.containerDiv) {
       if (this.containerDiv.classList.contains('popup-hidden')) {
         this.show()
@@ -54,17 +54,16 @@ class Popup extends (window as any).google.maps.OverlayView {
       }
     }
   }
-  
 
   /** Called when the popup is removed from the map. */
-  onRemove() {
+  onRemove () {
     if (this.containerDiv.parentElement) {
       this.containerDiv.parentElement.removeChild(this.containerDiv)
     }
   }
 
   /** Called each frame when the popup needs to draw itself. */
-  draw() {
+  draw () {
     const divPosition = this.getProjection().fromLatLngToDivPixel(
       this.position
     )

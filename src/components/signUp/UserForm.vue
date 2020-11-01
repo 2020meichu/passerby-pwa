@@ -67,37 +67,42 @@ import { Component, Vue } from 'vue-property-decorator'
   name: 'UserForm'
 })
 export default class UserForm extends Vue {
-  valid: boolean = true
-  id: string = ''
-  username: string = ''
-  password: string = ''
-  confirmPassword: string = ''
-  passwordVisiable: boolean = false
-  isAgree: boolean = false
-  idRule:any = [
-    (v:boolean|string) => !!v || '此格為必填',
-    (v:boolean|string) => (v && (v as string).length == 10) || '身分證字號必為10碼'
+  valid = true
+  id = ''
+  username = ''
+  password = ''
+  confirmPassword = ''
+  passwordVisiable = false
+  isAgree = false
+  idRule: any = [
+    (v: boolean|string) => !!v || '此格為必填',
+    (v: boolean|string) => (v && (v as string).length == 10) || '身分證字號必為10碼'
   ]
-  usernameRule:any = [
-    (v:boolean|string) => !!v || '此格為必填',
+
+  usernameRule: any = [
+    (v: boolean|string) => !!v || '此格為必填'
   ]
-  passwordRule:any = [
-    (v:boolean|string) => !!v || '此格為必填',
+
+  passwordRule: any = [
+    (v: boolean|string) => !!v || '此格為必填'
   ]
-  confirmPasswordRule:any = [
-    (v:string) => !!v || '此格為必填',
-    (v:string) => (v && v === this.$refs.password.value) || '與密碼不相符'
+
+  confirmPasswordRule: any = [
+    (v: string) => !!v || '此格為必填',
+    (v: string) => (v && v === this.$refs.password.value) || '與密碼不相符'
   ]
-  checkboxRule:any = [
-    (v:boolean) => !!v || false,
+
+  checkboxRule: any = [
+    (v: boolean) => !!v || false
   ]
+
   $refs!: {
-    form: HTMLFormElement
-    password: HTMLFormElement
+    form: HTMLFormElement;
+    password: HTMLFormElement;
   }
 
   submitHandler () {
-    const check:boolean = this.$refs.form.validate()
+    const check: boolean = this.$refs.form.validate()
     if (!check) {
       return
     }

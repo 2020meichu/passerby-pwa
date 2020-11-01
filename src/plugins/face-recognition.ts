@@ -13,7 +13,7 @@ class FaceRecognition {
     const inputSize = 408
     const scoreThreshold = 0.5
 
-    function getFaceDetectorOptions(net: faceapi.NeuralNetwork<any>) {
+    function getFaceDetectorOptions (net: faceapi.NeuralNetwork<any>) {
       return net === faceapi.nets.ssdMobilenetv1
         ? new faceapi.SsdMobilenetv1Options({ minConfidence })
         : new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold })
@@ -23,8 +23,8 @@ class FaceRecognition {
     // Pre-load the weights of model
     this.faceDetectionNet.loadFromUri('/weights')
   }
-  async getFaceImageDataURL (imagePath: string, size: number): Promise<string> {
 
+  async getFaceImageDataURL (imagePath: string, size: number): Promise<string> {
     const image = await canvas.loadImage(imagePath)
     console.log(image)
 
@@ -36,9 +36,8 @@ class FaceRecognition {
       throw '在這張圖片中沒有檢測到任何一張臉，請重新拍照試試'
     }
 
-    const box:faceapi.Box = detections[0].box
+    const box: faceapi.Box = detections[0].box
 
-    
     return new Promise((resolve: Function, reject: Function): any => {
       const canvasFace = canvas.createCanvas(size, size)
       const faceImage = new Image()
@@ -52,6 +51,5 @@ class FaceRecognition {
     })
   }
 }
-
 
 export default new FaceRecognition()

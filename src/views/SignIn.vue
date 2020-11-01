@@ -37,24 +37,25 @@ import { Action } from 'vuex-class'
 export default class SignIn extends Vue {
   @Action('user/login') public login!: Function
   @Action('feature/openNotification') public openNotification!: Function
-  valid: boolean = true
-  id: string = ''
-  password: string = ''
-  passwordVisiable: boolean = false
-  idRule:any = [
-    (v:boolean|string) => !!v || '此格為必填',
-    (v:boolean|string) => (v && (v as string).length == 10) || '身分證字號必為10碼'
+  valid = true
+  id = ''
+  password = ''
+  passwordVisiable = false
+  idRule: any = [
+    (v: boolean|string) => !!v || '此格為必填',
+    (v: boolean|string) => (v && (v as string).length == 10) || '身分證字號必為10碼'
   ]
-  passwordRule:any = [
-    (v:boolean|string) => !!v || '此格為必填',
+
+  passwordRule: any = [
+    (v: boolean|string) => !!v || '此格為必填'
   ]
 
   $refs!: {
-    form: HTMLFormElement
+    form: HTMLFormElement;
   }
 
   async submitHandler (): Promise<void> {
-    const check:boolean = this.$refs.form.validate()
+    const check: boolean = this.$refs.form.validate()
     if (!check) {
       return
     }

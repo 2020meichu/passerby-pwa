@@ -33,14 +33,15 @@ import BackBtn from '@/components/BackBtn.vue'
   }
 })
 export default class SignUp extends Vue {
-  isStep2: boolean = false
+  isStep2 = false
   userData: any
 
-  switchStep2Handler(data: any): void {
+  switchStep2Handler (data: any): void {
     this.userData = data
     this.isStep2 = true
   }
-  backButtonClickHandler(): void {
+
+  backButtonClickHandler (): void {
     if (this.isStep2) {
       this.isStep2 = false
     } else {

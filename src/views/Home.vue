@@ -26,7 +26,7 @@ import { Component, Vue } from 'vue-property-decorator'
   }
 })
 export default class Home extends Vue {
-  currentTab: number = 0
+  currentTab = 0
 }
 </script>
 

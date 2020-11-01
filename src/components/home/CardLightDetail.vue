@@ -38,24 +38,24 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Getter, Action } from 'vuex-class'
 
 interface DepartureRecord {
-  date: Date
-  to: string
+  date: Date;
+  to: string;
 }
 
 interface ArrivalRecord {
-  date: Date
-  from: string
+  date: Date;
+  from: string;
 }
 
 interface InfectedRecord {
-  disease_id: Number
-  date: Date
-  recover: boolean
+  disease_id: number;
+  date: Date;
+  recover: boolean;
 }
 
 interface QuarantineRecord {
-  start: Date
-  end: Date
+  start: Date;
+  end: Date;
 }
 
 @Component({
@@ -67,12 +67,12 @@ export default class CardLightDetail extends Vue {
   @Getter('configuration/getRules') public rules!: any
   @Action('user/getCurrentLightInfo') public getCurrentLightInfo!: Function
 
-  matchedRed: boolean = true
-  matchedYellow: boolean = true
-  matchedGreen: boolean = false
+  matchedRed = true
+  matchedYellow = true
+  matchedGreen = false
   formatResults: any = []
 
-  async created() {
+  async created () {
     const result = await this.getCurrentLightInfo()
     const redDisease: any = Object.keys(result.red.diseases).map((id) => {
       const disease = this.diseases.find((d: any) => String(d.id) === id)
@@ -106,7 +106,7 @@ export default class CardLightDetail extends Vue {
     console.log(result, this.formatResults)
   }
 
-  mappingLightInfo(result: any): any {
+  mappingLightInfo (result: any): any {
     if (result.light === 'red') {
       return {
         light_zh: '紅燈',

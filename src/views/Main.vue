@@ -45,11 +45,11 @@ import { Getter } from 'vuex-class'
 })
 export default class Main extends Vue {
   @Getter('user/getAvatar') public userAvatar!: string
-  bottomNav: number = 0
-  currentRouteTransitionName: string = 'v-scroll-x-transition'
+  bottomNav = 0
+  currentRouteTransitionName = 'v-scroll-x-transition'
 
-  changeRoute(currentNav: number): void {
-    let route: string = 'Home'
+  changeRoute (currentNav: number): void {
+    let route = 'Home'
     switch (currentNav) {
       case 0:
         route = 'Home'
@@ -66,8 +66,9 @@ export default class Main extends Vue {
     }
     this.$router.push({ name: route })
   }
+
   @Watch('$route.name')
-  onRouteChanged(value: string, oldValue: string) {
+  onRouteChanged (value: string, oldValue: string) {
     if (value === oldValue) {
       return
     }
@@ -82,7 +83,7 @@ export default class Main extends Vue {
     }
   }
 
-  get displayFunctionBar(): string {
+  get displayFunctionBar (): string {
     switch (this.$route.name) {
       case 'Home':
         return 'FunctionBarHome'
@@ -96,7 +97,8 @@ export default class Main extends Vue {
         return 'FunctionBarHome'
     }
   }
-  get elevationChange(): Number {
+
+  get elevationChange (): number {
     switch (this.$route.name) {
       case 'Home':
         return 0
@@ -104,8 +106,9 @@ export default class Main extends Vue {
         return 4
     }
   }
+
   @Watch('bottomNav')
-  onPropertyChanged(value: number, oldValue: number) {
+  onPropertyChanged (value: number, oldValue: number) {
     if (value - oldValue > 0) {
       this.currentRouteTransitionName = 'v-scroll-x-reverse-transition'
     } else {

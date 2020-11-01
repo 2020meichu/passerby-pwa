@@ -11,12 +11,12 @@ import { Component, Vue } from 'vue-property-decorator'
 import { Mutation, Getter } from 'vuex-class'
 
 interface Footprint {
-  currentTab: Number,
-  isMapLoaded: boolean
+  currentTab: number;
+  isMapLoaded: boolean;
 }
 
 @Component({
-  name: 'FunctionBarFootprint',
+  name: 'FunctionBarFootprint'
 })
 
 export default class FunctionBarFootprint extends Vue {
@@ -24,7 +24,7 @@ export default class FunctionBarFootprint extends Vue {
   @Mutation('feature/SET_footprintCurrentTab') public SET_footprintCurrentTab!: Function
   @Mutation('feature/TOGGLE_isLoading') public TOGGLE_isLoading!: Function
 
-  changeTab(index: Number): void {
+  changeTab (index: number): void {
     this.SET_footprintCurrentTab(index)
     if (this.footprint.currentTab === 0 && !this.footprint.isMapLoaded) {
       this.TOGGLE_isLoading()
