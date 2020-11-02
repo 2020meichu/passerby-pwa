@@ -1,3 +1,7 @@
 {
-  "message": "hello i18n !!"
+  "language": "Language",
+  "version": "Version",
+  "logout": "Logout",
+  "changePassword": "Change Password",
+  "changeUsername": "Change Username"
 }
