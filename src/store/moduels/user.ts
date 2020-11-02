@@ -43,7 +43,7 @@ interface UserState {
 const state: UserState = {
   avatar: '',
   id: '',
-  username: '',
+  username: 'Mia',
   footprints: [
     {
       longitude: 120.9885448,

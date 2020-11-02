@@ -1,6 +1,6 @@
 <template lang="pug">
 .primary.avatar.d-flex.justify-center.align-center
-  img(ref="avatar")
+  img(ref='avatar')
 </template>
 
 <script lang="ts">
@@ -10,14 +10,16 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
   name: 'Avatar'
 })
-
 export default class Avatar extends Vue {
   @Prop(String) readonly imgPath!: string
   $refs!: {
-    avatar: HTMLImageElement;
+    avatar: HTMLImageElement
   }
 
-  async mounted (): Promise<void> {
+  async mounted(): Promise<void> {
+    if (this.imgPath === '') {
+      return this.$refs.avatar.setAttribute('src', require('@/assets/img/citychaser_white.png'))
+    }
     // Obtain image through axios GET request
     const { data } = await axios.get(this.imgPath, {
       responseType: 'blob'
