@@ -1,7 +1,51 @@
 {
-  "language": "Language",
-  "version": "Version",
-  "logout": "Logout",
-  "changePassword": "Change Password",
-  "changeUsername": "Change Username"
+  "signin": {
+    "label": {
+      "login": "Login",
+      "forgetPassword": "Forget your password?",
+      "noAccount": "No account yet?",
+      "requiredField": "This is required.",
+      "SINCheck": "SIN number should be 10 digits."
+    },
+    "button": {
+      "login": "Login",
+      "register": "Register"
+    },
+    "field": {
+      "socialIdentityNumber": "Social Identity Number",
+      "password": "Password"
+    }
+  },
+  "signup": {
+    "label": {
+      "register": "Register",
+      "agreement": "I agree with the user privacy policy.",
+      "hadAccount": "Already have an account?",
+      "step1": "Step1: Fill in all user information.",
+      "step2": "Step2: Upload your social identification card.",
+      "requiredField": "This is required.",
+      "SINCheck": "SIN number should be 10 digits.",
+      "passwordCheck": "Not consistent with password.",
+      "cameraAgain": "Take one more"
+    },
+    "button": {
+      "nextStep": "Next",
+      "login": "Login",
+      "camera": "Take the photo",
+      "upload": "Upload"
+    },
+    "field": {
+      "socialIdentityNumber": "Social Identity Number",
+      "username": "Username",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    }
+  },
+  "setting": {
+    "language": "Language",
+    "version": "Version",
+    "logout": "Logout",
+    "changePassword": "Change Password",
+    "changeUsername": "Change Username"
+  }
 }

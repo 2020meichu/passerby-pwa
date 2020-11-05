@@ -88,21 +88,21 @@ export default class Settings extends Vue {
       {
         type: 'user',
         icon: 'mdi-border-color',
-        title: this.$t('changeUsername'),
+        title: this.$t('setting.changeUsername'),
         subTitle: this.username,
         emitFunction: null
       },
       {
         type: 'user',
         icon: 'mdi-lock',
-        title: this.$t('changePassword'),
+        title: this.$t('setting.changePassword'),
         subTitle: null,
         emitFunction: null
       },
       {
         type: 'user',
         icon: 'mdi-login',
-        title: this.$t('logout'),
+        title: this.$t('setting.logout'),
         subTitle: null,
         emitFunction: 'emitLogoutDialog'
       }
@@ -110,19 +110,19 @@ export default class Settings extends Vue {
   }
 
   get appSettingItems(): Array<SettingItem> {
-    console.log(this.$t('language'))
+    console.log(this.$t('setting.language'))
     return [
       {
         type: 'app',
         icon: 'mdi-web',
-        title: this.$t('language'),
+        title: this.$t('setting.language'),
         subTitle: this.selectedLanguage.name,
         emitFunction: 'toggleSheet'
       },
       {
         type: 'app',
         icon: 'mdi-cellphone-cog',
-        title: this.$t('version'),
+        title: this.$t('setting.version'),
         subTitle: '0.0.1',
         emitFunction: null
       }

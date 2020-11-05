@@ -1,19 +1,19 @@
 <template lang="pug">
 .signup-card.darkmode-dark.px-12.pt-11
   div
-    h1.fs-34.darkmode-white--text 註冊新帳號
-    span.fs-12.darkmode-gray--text 步驟二 上傳身份證
+    h1.fs-34.darkmode-white--text {{ $t('signup.label.register') }}
+    span.fs-12.darkmode-gray--text {{ $t('signup.label.step2') }}
   .pt-6.d-flex.justify-center.align-center
     .take-photo-section.d-flex.justify-center.align-center.flex-column.mb-2.darkmode-superdark(@click="toggleTakePhoto")
       div.d-flex.flex-column.justify-center.align-center(v-if="!photo")
         v-icon.take-photo-section__icon(color='primary', x-large) mdi-camera
-        p.primary--text.mb-0 點此拍攝身份證
+        p.primary--text.mb-0 {{ $t('signup.button.camera') }}
       img(v-else :src="photo")
   div.hint.mb-7(v-if="!photo")
   div.hint.d-flex.justify-center.align-center.mb-4(@click="toggleTakePhoto" v-else)
     v-icon.primary--text.mr-1(small) mdi-camera
-    p.primary--text.mb-0 重新拍攝
-  v-btn(color='primary', block, :disabled="!photo", :loading="isUploading" @click="uploadHandler") 上傳
+    p.primary--text.mb-0 {{ $t('signup.label.cameraAgain') }}
+  v-btn(color='primary', block, :disabled="!photo", :loading="isUploading" @click="uploadHandler") {{ $t('signup.button.upload') }}
   TakePhoto(
     v-if="isTakePhoto"
     @setPhoto="setPhoto"

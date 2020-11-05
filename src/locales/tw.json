@@ -1,7 +1,51 @@
 {
-  "language": "語言",
-  "version": "應用程式版本",
-  "logout": "帳號登出",
-  "changePassword": "更改使用者密碼",
-  "changeUsername": "更改使用者名稱"
+  "signin": {
+    "label": {
+      "login": "使用者登入",
+      "forgetPassword": "忘使用者密碼？",
+      "noAccount": "尚未擁有帳號？",
+      "requiredField": "此格為必填",
+      "SINCheck": "身分證字號必為 10 碼"
+    },
+    "button": {
+      "login": "登入",
+      "register": "註冊新帳號"
+    },
+    "field": {
+      "socialIdentityNumber": "身份證字號",
+      "password": "使用者密碼"
+    }
+  },
+  "signup": {
+    "label": {
+      "register": "註冊新帳號",
+      "agreement": "是否同意使用者隱私條款",
+      "hadAccount": "已擁有帳號？",
+      "step1": "步驟一 填寫使用者資料",
+      "step2": "步驟二 上傳身份證",
+      "requiredField": "此格為必填",
+      "SINCheck": "身分證字號必為 10 碼",
+      "passwordCheck": "與密碼不相符",
+      "cameraAgain": "重新拍攝"
+    },
+    "button": {
+      "nextStep": "下一步",
+      "login": "使用者登入",
+      "camera": "點此拍攝身份證",
+      "upload": "上傳"
+    },
+    "field": {
+      "socialIdentityNumber": "身份證字號",
+      "username": "使用者名稱",
+      "password": "輸入密碼",
+      "confirmPassword": "請再次輸入密碼"
+    }
+  },
+  "setting": {
+    "language": "語言",
+    "version": "應用程式版本",
+    "logout": "帳號登出",
+    "changePassword": "更改使用者密碼",
+    "changeUsername": "更改使用者名稱"
+  }
 }

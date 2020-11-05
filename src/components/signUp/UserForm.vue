@@ -1,8 +1,8 @@
 <template lang="pug">
 .signup-card.darkmode-dark.px-12.pt-11
   div
-    h1.fs-34.darkmode-white--text 註冊新帳號
-    span.fs-12.darkmode-gray--text 步驟一 填寫使用者資料
+    h1.fs-34.darkmode-white--text  {{ $t('signup.label.register') }}
+    span.fs-12.darkmode-gray--text {{ $t('signup.label.step1') }}
   .pt-2
     v-form(
       ref='form'
@@ -13,7 +13,7 @@
       v-text-field(
         v-model='id'
         type='text'
-        label='身分證字號'
+        :label="$t('signup.field.socialIdentityNumber')"
         color='primary'
         :rules="idRule"
         required
@@ -21,7 +21,7 @@
       v-text-field(
         v-model='username'
         type='text'
-        label='使用者名稱'
+        :label="$t('signup.field.username')"
         color='primary'
         :rules="usernameRule"
         required
@@ -32,7 +32,7 @@
         :type='passwordVisiable ? "text" : "password"',
         :append-icon='passwordVisiable ? "mdi-eye" : "mdi-eye-off"',
         @click:append='passwordVisiable = !passwordVisiable',
-        label='輸入密碼',
+        :label="$t('signup.field.password')"
         color='primary',
         :rules="passwordRule"
         required
@@ -42,22 +42,22 @@
         :type='passwordVisiable ? "text" : "password"',
         :append-icon='passwordVisiable ? "mdi-eye" : "mdi-eye-off"',
         @click:append='passwordVisiable = !passwordVisiable',
-        label='請再次輸入密碼',
+        :label="$t('signup.field.confirmPassword')"
         color='primary',
         :rules="confirmPasswordRule"
         required
       )
       v-checkbox.mt-0.mb-4.checkbox(
         v-model='isAgree'
-        :label='`是否同意使用者隱私條款`'
+        :label="$t('signup.label.agreement')"
         :rules="checkboxRule"
         hide-details
         dense
         required
       )
-      v-btn(color='primary', block, type="submit") 下一步
-      p.d-flex.justify-center.mt-4.mb-2.fs-12.darkmode-gray--text 已擁有帳號？
-      v-btn(color='primary', block, outlined, to='/sign-in') 使用者登入
+      v-btn(color='primary', block, type="submit") {{ $t('signup.button.nextStep') }}
+      p.d-flex.justify-center.mt-4.mb-2.fs-12.darkmode-gray--text {{ $t('signup.label.hadAccount') }}
+      v-btn(color='primary', block, outlined, to='/sign-in')  {{ $t('signup.button.login') }}
 </template>
 
 <script lang="ts">
@@ -75,21 +75,21 @@ export default class UserForm extends Vue {
   passwordVisiable = false
   isAgree = false
   idRule: any = [
-    (v: boolean|string) => !!v || '此格為必填',
-    (v: boolean|string) => (v && (v as string).length == 10) || '身分證字號必為10碼'
+    (v: boolean|string) => !!v || this.$t('signup.label.requiredField'),
+    (v: boolean|string) => (v && (v as string).length == 10) || this.$t('signup.label.SINCheck')
   ]
 
   usernameRule: any = [
-    (v: boolean|string) => !!v || '此格為必填'
+    (v: boolean|string) => !!v || this.$t('signup.label.requiredField')
   ]
 
   passwordRule: any = [
-    (v: boolean|string) => !!v || '此格為必填'
+    (v: boolean|string) => !!v || this.$t('signup.label.requiredField')
   ]
 
   confirmPasswordRule: any = [
-    (v: string) => !!v || '此格為必填',
-    (v: string) => (v && v === this.$refs.password.value) || '與密碼不相符'
+    (v: string) => !!v || this.$t('signup.label.requiredField'),
+    (v: string) => (v && v === this.$refs.password.value) || this.$t('signup.label.passwordCheck')
   ]
 
   checkboxRule: any = [
