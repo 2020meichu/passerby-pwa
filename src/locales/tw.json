@@ -109,10 +109,21 @@
     }
   },
   "setting": {
-    "language": "語言",
-    "version": "應用程式版本",
-    "logout": "帳號登出",
-    "changePassword": "更改使用者密碼",
-    "changeUsername": "更改使用者名稱"
+    "label": {
+      "setting": "設定",
+      "user": "使用者相關",
+      "application": "應用程式相關",
+      "language": "語言",
+      "askLogout": "是否登出",
+      "cancel": "取消",
+      "logout": "確定"
+    },
+    "button": {
+      "language": "語言",
+      "version": "應用程式版本",
+      "logout": "帳號登出",
+      "changePassword": "更改使用者密碼",
+      "changeUsername": "更改使用者名稱"
+    }
   }
 }

@@ -109,10 +109,21 @@
     }
   },
   "setting": {
-    "language": "Language",
-    "version": "Version",
-    "logout": "Logout",
-    "changePassword": "Change Password",
-    "changeUsername": "Change Username"
+    "label": {
+      "setting": "Settings",
+      "user": "User",
+      "application": "Application",
+      "language": "Language",
+      "askLogout": "Are you sure to log out?",
+      "cancel": "Cancel",
+      "logout": "Logout"
+    },
+    "button": {
+      "language": "Language",
+      "version": "Version",
+      "logout": "Logout",
+      "changePassword": "Change Password",
+      "changeUsername": "Change Username"
+    }
   }
 }

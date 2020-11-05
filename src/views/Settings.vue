@@ -1,7 +1,7 @@
 <template lang="pug">
 .settings-root.d-flex.justify-center
   v-list.list.darkmode-dark
-    v-subheader.subheader 使用者相關
+    v-subheader.subheader {{ $t('setting.label.user') }}
     list-item.pl-4.pr-4(
       v-for='(item, i) in userSettingItems',
       :key='`user-${i}`',
@@ -12,7 +12,7 @@
       @emitLogoutDialog='emitLogoutDialog'
     )
     v-divider
-    v-subheader.subheader 應用程式相關
+    v-subheader.subheader {{ $t('setting.label.application') }}
     list-item.pl-4.pr-4(
       v-for='(item, i) in appSettingItems',
       :key='`app-${i}`',
@@ -25,17 +25,17 @@
     v-bottom-sheet.darkmode-superdark(v-model='isLanguageListOpen')
       v-sheet.rounded-t-20.darkmode-superdark(height='169px')
         v-list.rounded-t-20.darkmode-superdark
-          v-subheader 語言
+          v-subheader {{ $t('setting.label.language') }}
           v-list-item.pl-4.pr-4(v-for='item in languageList', :key='item.name', @click='switchLocaleLanguage(item.i18n)')
             v-list-item-content
               v-list-item-title(:class='{ "primary--text": item.i18n === selectedLanguage.i18n }') {{ item.name }}
     v-dialog(v-model='isLogoutModalOpen', width='279', overlay-opacity='0.7')
       v-card.rounded-20.darkmode-dark(width='279')
-        v-card-title 是否登出
+        v-card-title {{ $t('setting.label.askLogout') }}
         v-card-actions
           v-spacer
-          v-btn(color='primary', text, @click='isLogoutModalOpen = false') 取消
-          v-btn.ml-0(color='primary', text, @click='logout') 確定
+          v-btn(color='primary', text, @click='isLogoutModalOpen = false') {{ $t('setting.label.cancel') }}
+          v-btn.ml-0(color='primary', text, @click='logout') {{ $t('setting.label.logout') }}
 </template>
 
 <script lang="ts">
@@ -88,21 +88,21 @@ export default class Settings extends Vue {
       {
         type: 'user',
         icon: 'mdi-border-color',
-        title: this.$t('setting.changeUsername'),
+        title: this.$t('setting.button.changeUsername'),
         subTitle: this.username,
         emitFunction: null
       },
       {
         type: 'user',
         icon: 'mdi-lock',
-        title: this.$t('setting.changePassword'),
+        title: this.$t('setting.button.changePassword'),
         subTitle: null,
         emitFunction: null
       },
       {
         type: 'user',
         icon: 'mdi-login',
-        title: this.$t('setting.logout'),
+        title: this.$t('setting.button.logout'),
         subTitle: null,
         emitFunction: 'emitLogoutDialog'
       }
@@ -110,19 +110,19 @@ export default class Settings extends Vue {
   }
 
   get appSettingItems(): Array<SettingItem> {
-    console.log(this.$t('setting.language'))
+    console.log(this.$t('setting.button.language'))
     return [
       {
         type: 'app',
         icon: 'mdi-web',
-        title: this.$t('setting.language'),
+        title: this.$t('setting.button.language'),
         subTitle: this.selectedLanguage.name,
         emitFunction: 'toggleSheet'
       },
       {
         type: 'app',
         icon: 'mdi-cellphone-cog',
-        title: this.$t('setting.version'),
+        title: this.$t('setting.button.version'),
         subTitle: '0.0.1',
         emitFunction: null
       }

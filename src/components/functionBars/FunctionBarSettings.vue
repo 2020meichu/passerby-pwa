@@ -1,6 +1,6 @@
 <template lang="pug">
   div.function-bar-footprint
-    h1.d-flex.fs-34.darkmode-white--text 設定
+    h1.d-flex.fs-34.darkmode-white--text {{ $t('setting.label.setting') }}
 </template>
 
 <script lang="ts">
