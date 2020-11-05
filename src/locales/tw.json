@@ -1,4 +1,37 @@
 {
+  "main": {
+    "label": {
+      "greeting": "你好, {username}"
+    }
+  },
+  "home": {
+    "label": {
+      "level": "等級",
+      "light": {
+        "red": "紅燈",
+        "yellow": "黃燈",
+        "green": "綠燈"
+      },
+      "information": "個人詳細狀態",
+      "standard": "分級標準"
+    },
+    "description": {
+      "light": {
+        "red": "傳染病帶原者、疑似帶原者或具接觸史、出國史之高風險族群，需實施隔離",
+        "yellow": "非高風險，但具一定傳染力，需配戴口罩或其他防護之醫療用品，以杜絕傳染",
+        "green": "低風險族群。現階段無傳染帶原，且無接觸、出國史"
+      },
+      "standard": {
+        "infected": "確診 {disease}",
+        "place": "{day} 天內從 {place} 出入境"
+      }
+    },
+    "button": {
+      "news": "最新消息",
+      "status": "個人狀態",
+      "readMore": "看更多"
+    }
+  },
   "signin": {
     "label": {
       "login": "使用者登入",

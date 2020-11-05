@@ -1,8 +1,8 @@
 <template lang="pug">
 .root
   v-tabs.pl-10.mb-8(v-model='currentTab', background-color='darkmode-dark', height='20')
-    v-tab.pb-1 最新消息
-    v-tab.pb-1 個人狀態
+    v-tab.pb-1 {{ $t('home.button.news') }}
+    v-tab.pb-1 {{ $t('home.button.status') }}
   v-tabs-items.darkmode-dark(v-model='currentTab')
     v-tab-item
       .list.pl-10

@@ -10,7 +10,7 @@ v-card.rounded-20(width='241', height='334', elevation='4' color="darkmode-super
   v-card-actions.justify-end.px-6
     v-dialog(v-model='isShowDetail', fullscreen, hide-overlay, transition='dialog-bottom-transition')
       template(v-slot:activator='{ on, attrs }')
-        v-chip.h-20(x-small, color='primary', text-color='darkmode-dark', v-on='on', v-bind='attrs') 繼續閱讀
+        v-chip.h-20(x-small, color='primary', text-color='darkmode-dark', v-on='on', v-bind='attrs') {{ $t('home.button.readMore') }}
       v-card.darkmode-dark
         v-app-bar(fixed color='darkmode-dark', height='104', elevation='4').pr-8
           back-btn(@click.native='backHandler')

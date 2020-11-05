@@ -1,4 +1,37 @@
 {
+  "main": {
+    "label": {
+      "greeting": "Hello, {username}"
+    }
+  },
+  "home": {
+    "label": {
+      "level": "Level",
+      "light": {
+        "red": "Red",
+        "yellow": "Yellow",
+        "green": "Green"
+      },
+      "information": "Information",
+      "standard": "Standard"
+    },
+    "description": {
+      "light": {
+        "red": "People who are carriers of infectious diseases, suspected carriers, or high-risk groups with contact history or history of going abroad.",
+        "yellow": "Not high-risk, but with a certain degree of infectiousness, you need to wear a mask or other protective medical supplies to prevent infection.",
+        "green": "Low-risk groups. At this stage, there is no infectious doubt, and no history of contact or going abroad."
+      },
+      "standard": {
+        "infected": "Confirmed {disease}",
+        "place": "Once in {place} within {day} day(s)"
+      }
+    },
+    "button": {
+      "news": "News",
+      "status": "Status",
+      "readMore": "See More"
+    }
+  },
   "signin": {
     "label": {
       "login": "Login",

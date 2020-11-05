@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    h1.fs-34.darkmode-white--text 你好, {{ username }}
+    h1.fs-34.darkmode-white--text {{ $t('main.label.greeting', { username }) }}
 </template>
 
 <script lang="ts">

@@ -8,7 +8,7 @@ div
             v-icon(small, color='darkmode-danger') mdi-alert-circle
           v-col(cols='10')
             .d-flex.flex-column
-              h6.subtitle-1.lh-16.mb-1.darkmode-danger--text {{ mappingLightInfo(result).light_zh + "等級" }}
+              h6.subtitle-1.lh-16.mb-1.darkmode-danger--text {{ mappingLightInfo(result).light + " " + $t('home.label.level') }}
               span.fs-12.lh-16.darkmode-gray--text {{ mappingLightInfo(result).name }}
               span.fs-12.lh-16.darkmode-gray--text 2020.10.20 12:00
               v-divider.my-2
@@ -18,7 +18,7 @@ div
             v-icon(small, color='darkmode-yellow') mdi-alert-circle
           v-col(cols='10')
             .d-flex.flex-column
-              h6.subtitle-1.lh-16.mb-1.darkmode-yellow--text {{ mappingLightInfo(result).light_zh + "等級" }}
+              h6.subtitle-1.lh-16.mb-1.darkmode-yellow--text {{ mappingLightInfo(result).light + " " + $t('home.label.level') }}
               span.fs-12.lh-16.darkmode-gray--text {{ mappingLightInfo(result).name }}
               span.fs-12.lh-16.darkmode-gray--text 2020.10.20 12:00
   div(v-else)
@@ -27,8 +27,8 @@ div
         v-icon(small, color='primary') mdi-check-circle
       v-col(cols='10')
         .d-flex.flex-column
-          h6.subtitle-1.lh-16.mb-1.primary--text 綠燈等級
-          span.fs-12.lh-16.darkmode-gray--text 無相關病史、出國史、接觸史
+          h6.subtitle-1.lh-16.mb-1.primary--text {{ $t('home.label.light.green') + ' ' + $t('home.label.level') }}
+          span.fs-12.lh-16.darkmode-gray--text {{ $t('home.description.light.green') }}
           span.fs-12.lh-16.darkmode-gray--text 2020.10.25 12:00
 </template>
 
@@ -77,28 +77,28 @@ export default class CardLightDetail extends Vue {
     const redDisease: any = Object.keys(result.red.diseases).map((id) => {
       const disease = this.diseases.find((d: any) => String(d.id) === id)
       return {
-        name: `確診 ${disease.name}`,
+        name: this.$t('home.description.standard.infected', { disease: disease.name }) as string,
         light: 'red'
       }
     })
     const redRegion: any = Object.keys(result.red.regions).map((id, index) => {
       const region = this.regions.find((d: any) => String(d.id) === id)
       return {
-        name: `${this.rules.red.regions[id]}天內從${region.name}出入境`,
+        name: this.$t('home.description.standard.place', { place: region.name, day: this.rules.red.regions[id] }) as string,
         light: 'red'
       }
     })
     const yellowDisease: any = Object.keys(result.yellow.diseases).map((id) => {
       const disease = this.diseases.find((d: any) => String(d.id) === id)
       return {
-        name: `確診 ${disease.name}`,
+        name: this.$t('home.description.standard.infected', { disease: disease.name }) as string,
         light: 'yellow'
       }
     })
     const yellowRegion: any = Object.keys(result.yellow.regions).map((id) => {
       const region = this.regions.find((d: any) => String(d.id) === id)
       return {
-        name: `${this.rules.yellow.regions[id]}天內從${region.name}出入境`,
+        name: this.$t('home.description.standard.place', { place: region.name, day: this.rules.yellow.regions[id] }) as string,
         light: 'yellow'
       }
     })
@@ -109,19 +109,19 @@ export default class CardLightDetail extends Vue {
   mappingLightInfo (result: any): any {
     if (result.light === 'red') {
       return {
-        light_zh: '紅燈',
+        light: this.$t('home.label.light.red') as string,
         color: 'darkmode-danger',
         name: result.name
       }
     } else if (result.light === 'yellow') {
       return {
-        light_zh: '黃燈',
+        light: this.$t('home.label.light.yellow') as string,
         color: 'darkmode-yellow',
         name: result.name
       }
     } else {
       return {
-        light_zh: '綠燈',
+        light: this.$t('home.label.light.green') as string,
         color: 'primary',
         name: result.name
       }
