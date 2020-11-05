@@ -32,6 +32,40 @@
       "readMore": "看更多"
     }
   },
+  "checkIn": {
+    "label": {
+      "level": "等級",
+      "ok": "確定",
+      "checkIn": "打卡您的位置",
+      "checkInSuccess": "打卡成功",
+      "none": "無",
+      "customPlaceTitle": "請輸入地點名稱",
+      "requiredField": "此格為必填",
+      "submit": "送出",
+      "cancel": "取消",
+      "light": {
+        "red": "紅燈",
+        "yellow": "黃燈",
+        "green": "綠燈"
+      }
+    },
+    "description": {
+      "light": {
+        "red": "傳染病帶原者、疑似帶原者或具接觸史、出國史之高風險族群，需實施隔離",
+        "yellow": "非高風險，但具一定傳染力，需配戴口罩或其他防護之醫療用品，以杜絕傳染",
+        "green": "低風險族群。現階段無傳染帶原，且無接觸、出國史"
+      }
+    },
+    "button": {
+      "customPlace": "自行輸入地點"
+    },
+    "field": {
+      "customPlace": {
+        "name": "地點名稱",
+        "coordinate": "當前座標"
+      }
+    }
+  },
   "signin": {
     "label": {
       "login": "使用者登入",

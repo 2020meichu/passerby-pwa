@@ -1,10 +1,10 @@
 <template lang="pug">
 v-card.rounded-20.darkmode-superdark(width='241', height='334', elevation='4')
   v-img.rounded-b-0(:src='mappingLightInfo(light).imgUrl', height='188')
-  v-card-title.text-h5.lh-24.px-6(:class='`${mappingLightInfo(light).color}--text`') {{ mappingLightInfo(light).name_zh + "等級" }}
+  v-card-title.text-h5.lh-24.px-6(:class='`${mappingLightInfo(light).color}--text`') {{ mappingLightInfo(light).name + " " + $t('checkIn.label.level') }}
   v-card-text.fs-12.lh-16.text-dot-2.text-justify.px-6 {{ mappingLightInfo(light).description }}
   v-card-actions.justify-center
-    v-chip.h-20(x-small, :color='mappingLightInfo(light).color', text-color='darkmode-dark', @click='confirm') 確定
+    v-chip.h-20(x-small, :color='mappingLightInfo(light).color', text-color='darkmode-dark', @click='confirm') {{ $t('checkIn.label.ok') }}
 </template>
 <script lang="ts">
 import BackBtn from '@/components/BackBtn.vue'
@@ -13,7 +13,7 @@ import { Getter, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
 interface lightInfo {
-  name_zh: string;
+  name: string;
   color: string;
   imgUrl: string;
   description: string;
@@ -38,14 +38,14 @@ export default class CardLight extends Vue {
     const redDisease: any = Object.keys(result.red.diseases).map((id) => {
       const disease = this.diseases.find((d: any) => String(d.id) === id)
       return {
-        name: `確診 ${disease.name}`,
+        name: this.$t('home.description.standard.infected', { disease: disease.name }) as string,
         light: 'red'
       }
     })
     const redRegion: any = Object.keys(result.red.regions).map((id, index) => {
       const region = this.regions.find((d: any) => String(d.id) === id)
       return {
-        name: `${this.rules.red.regions[id]}天內從${region.name}出入境`,
+        name: this.$t('home.description.standard.place', { place: region.name, day: this.rules.red.regions[id] }) as string,
         light: 'red'
       }
     })
@@ -58,14 +58,14 @@ export default class CardLight extends Vue {
     const yellowDisease: any = Object.keys(result.yellow.diseases).map((id) => {
       const disease = this.diseases.find((d: any) => String(d.id) === id)
       return {
-        name: `確診 ${disease.name}`,
+        name: this.$t('home.description.standard.infected', { disease: disease.name }) as string,
         light: 'yellow'
       }
     })
     const yellowRegion: any = Object.keys(result.yellow.regions).map((id) => {
       const region = this.regions.find((d: any) => String(d.id) === id)
       return {
-        name: `${this.rules.yellow.regions[id]}天內從${region.name}出入境`,
+        name: this.$t('home.description.standard.place', { place: region.name, day: this.rules.yellow.regions[id] }) as string,
         light: 'yellow'
       }
     })
@@ -80,27 +80,27 @@ export default class CardLight extends Vue {
     this.$router.replace('/')
   }
 
-  mappingLightInfo (light: string): lightInfo {
-    if (light === 'red') {
+  mappingLightInfo (result: any): any {
+    if (result.light === 'red') {
       return {
-        name_zh: '紅燈',
+        name: this.$t('checkIn.label.light.red') as string,
+        light: this.$t('home.label.light.red') as string,
         color: 'darkmode-danger',
-        imgUrl: require('@/assets/img/red-light-img.png'),
-        description: '傳染病帶原者、疑似帶原者或具接觸史、出國史之高風險族群，需實施隔離'
+        description: this.$t('checkIn.description.light.red') as string
       }
-    } else if (light === 'yellow') {
+    } else if (result.light === 'yellow') {
       return {
-        name_zh: '黃燈',
+        name: this.$t('checkIn.label.light.yellow') as string,
+        light: this.$t('home.label.light.yellow') as string,
         color: 'darkmode-yellow',
-        imgUrl: require('@/assets/img/yellow-light-img.png'),
-        description: '非高風險，但具一定傳染力，需配戴口罩或其他防護之醫療用品，以杜絕傳染'
+        description: this.$t('checkIn.description.light.yellow') as string
       }
     } else {
       return {
-        name_zh: '綠燈',
+        name: this.$t('checkIn.label.light.green') as string,
+        light: this.$t('home.label.light.green') as string,
         color: 'primary',
-        imgUrl: require('@/assets/img/green-light-img.png'),
-        description: '低風險族群。現階段無傳染帶原，且無接觸、出國史'
+        description: this.$t('checkIn.description.light.green') as string
       }
     }
   }

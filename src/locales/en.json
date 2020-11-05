@@ -32,6 +32,40 @@
       "readMore": "See More"
     }
   },
+  "checkIn": {
+    "label": {
+      "level": "Level",
+      "ok": "OK",
+      "checkIn": "Check in now",
+      "checkInSuccess": "Check in successfully",
+      "none": "none",
+      "customPlaceTitle": "Define your place",
+      "requiredField": "This is required",
+      "submit": "submit",
+      "cancel": "cancel",
+      "light": {
+        "red": "Red",
+        "yellow": "Yellow",
+        "green": "Green"
+      }
+    },
+    "description": {
+      "light": {
+        "red": "People who are carriers of infectious diseases, suspected carriers, or high-risk groups with contact history or history of going abroad.",
+        "yellow": "Not high-risk, but with a certain degree of infectiousness, you need to wear a mask or other protective medical supplies to prevent infection.",
+        "green": "Low-risk groups. At this stage, there is no infectious doubt, and no history of contact or going abroad."
+      }
+    },
+    "button": {
+      "customPlace": "Define your place"
+    },
+    "field": {
+      "customPlace": {
+        "name": "Name",
+        "coordinate": "Coordinate"
+      }
+    }
+  },
   "signin": {
     "label": {
       "login": "Login",

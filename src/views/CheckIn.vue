@@ -3,19 +3,19 @@
   #map
   .d-flex.flex-column.mt-3(v-if='!hasCheckIned')
     place-item.mb-3(v-for='place in placeInfos', :key='place.name', :isLastOne='false', :name='place.name', :address='place.address', :distance='place.distance', @click.native='checkInAction(place)')
-    place-item.mb-3(:isLastOne='true', :name='"自行輸入地點"', :address='"無"', :distance='0', @click.native='openCheckInForm')
+    place-item.mb-3(:isLastOne='true', :name="$t('checkIn.button.customPlace')", :address="$t('checkIn.label.none')", :distance='0', @click.native='openCheckInForm')
   .d-flex.justify-center.align-center.mt-5(v-else)
     card-result
   v-dialog(v-model='isCheckImFormOpen')
     v-card.rounded-20
-      v-card-title 請輸入地點名稱
+      v-card-title {{ $t('checkIn.label.customPlaceTitle') }}
       v-card-text
         v-form(ref='form', v-model='valid', lazy-validation)
-          v-text-field(v-model='typeName', type='text', label='地點名稱', color='primary', :rules='nameRule', required)
-          v-text-field(type='text', :value='shortPosition', label='當前座標', readonly, color='darkmode-gray', required)
+          v-text-field(v-model='typeName', type='text', :label="$t('checkIn.field.customPlace.name')", color='primary', :rules='nameRule', required)
+          v-text-field(type='text', :value='shortPosition', :label="$t('checkIn.field.customPlace.coordinate')", readonly, color='darkmode-gray', required)
       v-card-actions.justify-end.mt-n7
-        v-btn(color='primary', text, @click='isCheckImFormOpen = false') 取消
-        v-btn(color='primary', text, @click='conform2CheckIn') 送出
+        v-btn(color='primary', text, @click='isCheckImFormOpen = false') {{ $t('checkIn.label.cancel') }}
+        v-btn(color='primary', text, @click='conform2CheckIn') {{ $t('checkIn.label.submit') }}
 </template>
 
 <script lang="ts">
@@ -62,7 +62,7 @@ export default class CheckIn extends Vue {
   valid = true
   isCheckImFormOpen = false
   typeName = ''
-  nameRule: any = [(v: boolean | string) => !!v || '此格為必填']
+  nameRule: any = [(v: boolean | string) => !!v || this.$t('checkIn.label.requiredField')]
   placeInfos: Array<PlaceInfo> = []
   currentPosition: Position = {
     latitude: 0,

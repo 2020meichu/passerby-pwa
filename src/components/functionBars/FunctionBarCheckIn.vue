@@ -1,9 +1,9 @@
 fixed<template lang="pug">
 .root.d-flex.align-end.justify-space-between
   template(v-if="!hasCheckIned")
-    h1.fs-34.darkmode-white--text 打卡您的位置
+    h1.fs-34.darkmode-white--text {{ $t('checkIn.label.checkIn') }}
   template(v-if="hasCheckIned")
-    h1.fs-34.darkmode-white--text 打卡成功
+    h1.fs-34.darkmode-white--text  {{ $t('checkIn.label.checkInSuccess') }}
 //- .fs-12
   v-icon(x-small, color='primary') mdi-map-marker
   span.primary--text 東港神秘小地方
